@@ -1,38 +1,49 @@
-.App {
+@import 'antd/dist/antd.css';
+
+
+.site-layout-content {
+  padding: 24px;
+  background: #fff;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.site-layout-content-inside {
+  padding: 24px;
+  background: rgb(247, 247, 247);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.site-layout-content-again {
+  padding: 24px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  min-height: 700px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
+
+.language-bash {
+  border-radius: 6px;
+  margin-top: 24px;
+  color: rgb(255, 71, 71);
+  font-size: small;
+  white-space : pre-wrap;
+}
+
+.login-form-button{
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  width: 100%;
 }

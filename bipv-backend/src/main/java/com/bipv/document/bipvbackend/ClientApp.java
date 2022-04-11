@@ -1,25 +1,17 @@
 package com.bipv.document.bipvbackend;
 
-// import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-// import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.gateway.Wallets;
-// import org.hyperledger.fabric.protos.ledger.rwset.kvrwset.KvRwset;
-// import org.hyperledger.fabric.sdk.BlockInfo;
-// import org.hyperledger.fabric.sdk.TxReadWriteSetInfo;
-// import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
-// import static org.hyperledger.fabric.sdk.BlockInfo.EnvelopeType.TRANSACTION_ENVELOPE;
-// import org.hyperledger.fabric.sdk.exception.ProposalException;
-// import org.json.JSONArray;
-// import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ClientApp {
 
@@ -28,7 +20,7 @@ public class ClientApp {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
 	}
 
-	public static String clientApp(String userName) throws Exception {
+	public static String InitLedger(String userName) throws Exception {
 
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
@@ -38,7 +30,7 @@ public class ClientApp {
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer1.yaml");
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, userName)
@@ -52,111 +44,219 @@ public class ClientApp {
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("basic");
 
-			// BlockInfo blockInfo = null;
-			// try {
-			// 	blockInfo = network.getChannel().queryBlockByNumber(4);
-			// } catch (InvalidArgumentException | ProposalException e) {
-			// 	e.printStackTrace();
-			// }
+			byte[] result = contract.submitTransaction("InitLedger");
 
-			// for (BlockInfo.EnvelopeInfo envelopeInfo : blockInfo.getEnvelopeInfos()) {
-			// 	if (envelopeInfo.getType() == TRANSACTION_ENVELOPE) {
-			// 		BlockInfo.TransactionEnvelopeInfo transactionEnvelopeInfo = (BlockInfo.TransactionEnvelopeInfo) envelopeInfo;
-			// 		for (BlockInfo.TransactionEnvelopeInfo.TransactionActionInfo transactionActionInfo : transactionEnvelopeInfo
-			// 				.getTransactionActionInfos()) {
-			// 			// System.out.println(ccName);
-			// 			TxReadWriteSetInfo rwsetInfo = transactionActionInfo.getTxReadWriteSet();
-			// 			if (null != rwsetInfo) {
-			// 				for (TxReadWriteSetInfo.NsRwsetInfo nsRwsetInfo : rwsetInfo.getNsRwsetInfos()) {
-			// 					KvRwset.KVRWSet rws = null;
-			// 					rws = nsRwsetInfo.getRwset();
+			return new String(result);
+		}
+	}
 
-			// 					// int rs = -1;
-			// 					for (KvRwset.KVWrite writeList : rws.getWritesList()) {
-			// 						// rs++;
-			// 						String valAsString = null;
+	public static ArrayList<DocumentInfo> GetAllAssets(String userName) throws Exception {
 
-			// 						if (writeList != null && writeList.getValue() != null) {
+		// Load a file system based wallet for managing identities.
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-			// 							String key = writeList.getKey();
-			// 							System.out.println("Key : " + key);
+		// String ORG = "1";
 
-			// 							try {
-			// 								valAsString = new String(writeList.getValue().toByteArray(), UTF_8);
-			// 							} catch (UnsupportedEncodingException e) {
-			// 								// TODO Auto-generated catch block
-			// 								e.printStackTrace();
-			// 							}
-			// 							System.out.println("Value : " + valAsString);
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
 
-			// 						}
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, userName)
+				.networkConfig(networkConfigPath)
+				.discovery(true);
 
-			// 					}
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
 
-			// 					System.out.println("\n\n Done \n\n");
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
 
-			// 				}
-			// 			}
-
-			// 		}
-
-			// 	}
-			// }
-
+			
 			byte[] result;
 
-			// call the chaincode function
-			contract.submitTransaction("InitLedger");
 
-			// result = contract.evaluateTransaction("GetAllAssets");
-			result = contract.evaluateTransaction("ReadAsset","672");
+			result = contract.evaluateTransaction("GetAllAssets");
 
-			// ArrayList<DocumentInfo> docList = new ArrayList<DocumentInfo>();
+			ArrayList<DocumentInfo> docList = new ArrayList<DocumentInfo>();
 
 			String res = new String(result);
 
-			List<String> resSet = Arrays.asList(res.split("/"));
+			JSONArray jsonArray = new JSONArray(res);
 
-			for(String s : resSet) {
-				System.out.println(s);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				DocumentInfo doc = new DocumentInfo();
+				doc.setDocumentNo(jsonObject.getString("documentNo"));
+				doc.setDocumentLink(jsonObject.getString("documentLink"));
+				doc.setDocumentType(jsonObject.getString("documentType"));
+				doc.setDateReceived(jsonObject.getString("dateReceived"));
+				doc.setProjectStage(jsonObject.getString("projectStage"));
+				doc.setDocumentSize(jsonObject.getString("documentSize"));
+				doc.setSentBy(jsonObject.getString("sentBy"));
+				doc.setReceivedBy(jsonObject.getString("receivedBy"));
+				doc.setMainContent(jsonObject.getString("mainContent"));
+
+				docList.add(doc);
 			}
 
-			// JSONObject jsonObject = new JSONObject(res);
-			// DocumentInfo doc = new DocumentInfo();
-			// doc.setDocumentNo(jsonObject.getString("documentNo"));
-			// doc.setDocumentLink(jsonObject.getString("documentLink"));
-			// doc.setDocumentType(jsonObject.getString("documentType"));
-			// doc.setDateReceived(jsonObject.getString("dateReceived"));
-			// doc.setProjectStage(jsonObject.getString("projectStage"));
-			// doc.setDocumentSize(jsonObject.getString("documentSize"));
-			// doc.setSentBy(jsonObject.getString("sentBy"));
-			// doc.setReceivedBy(jsonObject.getString("receivedBy"));
-			// doc.setMainContent(jsonObject.getString("mainContent"));
+			return docList;
+		}
+	}
 
-			// docList.add(doc);
+	public static Object AddAsset(Map<String, String> payload) throws Exception {
+
+		// Load a file system based wallet for managing identities.
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+		// String ORG = "1";
+
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, payload.get("userName"))
+				.networkConfig(networkConfigPath)
+				.discovery(true);
+
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
+
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
+
+			// call the chaincode function
+			try {
+				contract.submitTransaction("CreateAsset", payload.get(
+						"documentNo"), payload.get("documentType"),
+						payload.get("dateReceived"), payload.get("projectStage"), payload.get("documentSize"),
+						payload.get("receivedBy"),
+						payload.get("sentBy"), payload.get("mainContent"),
+						payload.get("documentLink"));
+			} catch (Exception e) {
+				return e.getMessage();
+			}
+
+			return GetAllAssets(payload.get("userName"));
+		}
+	}
 
 
 
+	public static Object UpdateAsset(Map<String, String> payload) throws Exception {
+		// Load a file system based wallet for managing identities.
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-			// JSONArray jsonArray = new JSONArray(res);
+		// String ORG = "1";
 
-			// for (int i = 0; i < jsonArray.length(); i++) {
-			// 	JSONObject jsonObject = jsonArray.getJSONObject(i);
-			// 	DocumentInfo doc = new DocumentInfo();
-			// 	doc.setDocumentNo(jsonObject.getString("documentNo"));
-			// 	doc.setDocumentLink(jsonObject.getString("documentLink"));
-			// 	doc.setDocumentType(jsonObject.getString("documentType"));
-			// 	doc.setDateReceived(jsonObject.getString("dateReceived"));
-			// 	doc.setProjectStage(jsonObject.getString("projectStage"));
-			// 	doc.setDocumentSize(jsonObject.getString("documentSize"));
-			// 	doc.setSentBy(jsonObject.getString("sentBy"));
-			// 	doc.setReceivedBy(jsonObject.getString("receivedBy"));
-			// 	doc.setMainContent(jsonObject.getString("mainContent"));
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
 
-			// 	docList.add(doc);
-			// }
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, payload.get("userName"))
+				.networkConfig(networkConfigPath)
+				.discovery(true);
 
-			return new String(result);
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
+
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
+
+			// call the chaincode function
+			contract.submitTransaction("UpdateAsset", payload.get(
+					"documentNo"), payload.get("documentType"),
+					payload.get("dateReceived"), payload.get("projectStage"), payload.get("documentSize"),
+					payload.get("receivedBy"),
+					payload.get("sentBy"), payload.get("mainContent"),
+					payload.get("documentLink"));
+
+			return GetAllAssets(payload.get("userName"));
+		}
+	}
+
+
+
+	public static DocumentInfo ReadAsset(Map<String, String> payload) throws Exception {
+
+		// Load a file system based wallet for managing identities.
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+		// String ORG = "1";
+
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, payload.get("userName"))
+				.networkConfig(networkConfigPath)
+				.discovery(true);
+
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
+
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
+
+
+			byte[] result = contract.evaluateTransaction("ReadAsset", payload.get("documentNo"));
+
+			String res = new String(result);
+
+			JSONObject jsonObject = new JSONObject(res);
+			DocumentInfo doc = new DocumentInfo();
+
+			doc.setDocumentNo(jsonObject.getString("documentNo"));
+			doc.setDocumentLink(jsonObject.getString("documentLink"));
+			doc.setDocumentType(jsonObject.getString("documentType"));
+			doc.setDateReceived(jsonObject.getString("dateReceived"));
+			doc.setProjectStage(jsonObject.getString("projectStage"));
+			doc.setDocumentSize(jsonObject.getString("documentSize"));
+			doc.setSentBy(jsonObject.getString("sentBy"));
+			doc.setReceivedBy(jsonObject.getString("receivedBy"));
+			doc.setMainContent(jsonObject.getString("mainContent"));
+
+			return doc;
+		}
+	}
+
+	public static Object DeleteAsset(Map<String, String> payload)throws Exception {
+		// Load a file system based wallet for managing identities.
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+		// String ORG = "1";
+
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, payload.get("userName"))
+				.networkConfig(networkConfigPath)
+				.discovery(true);
+
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
+
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
+
+			contract.evaluateTransaction("DeleteAsset", payload.get("documentNo"));
+
+			return GetAllAssets(payload.get("userName"));
 		}
 	}
 

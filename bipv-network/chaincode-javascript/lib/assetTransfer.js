@@ -51,6 +51,19 @@ class AssetTransfer extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     async CreateAsset(ctx, documentNo, documentType, dateReceived, projectStage, documentSize, receivedBy, sentBy, mainContent, documentLink) {
+
+
+        const arr = ctx.clientIdentity.getID().split('/');
+        for (const item of arr) {
+            const part = item.split('=');
+            if (part[0] === 'CN') {
+                const clientName = part[1];
+                if (clientName === 'User2::') {
+                    throw new Error(`You are not authorized to perform this action`);
+                }
+            }
+        }
+
         const exists = await this.AssetExists(ctx, documentNo);
         if (exists) {
             throw new Error(`The asset ${documentNo} already exists`);
@@ -77,13 +90,25 @@ class AssetTransfer extends Contract {
         const assetJSON = await ctx.stub.getState(id); // get the asset from chaincode state
         if (!assetJSON || assetJSON.length === 0) {
             throw new Error(`The asset ${id} does not exist`);
-        } 
-        const clientIdentity = ctx.clientIdentity;
-        return clientIdentity.getID();
+        }
+        return assetJSON.toString();
     }
 
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     async UpdateAsset(ctx, documentNo, documentType, dateReceived, projectStage, documentSize, receivedBy, sentBy, mainContent, documentLink) {
+
+        const arr = ctx.clientIdentity.getID().split('/');
+        for (const item of arr) {
+            const part = item.split('=');
+            if (part[0] === 'CN') {
+                const clientName = part[1];
+                if (clientName === 'User2::') {
+                    throw new Error(`You are not authorized to perform this action`);
+                }
+            }
+        }
+
+
         const exists = await this.AssetExists(ctx, documentNo);
         if (!exists) {
             throw new Error(`The asset ${documentNo} does not exist`);
@@ -107,6 +132,18 @@ class AssetTransfer extends Contract {
 
     // DeleteAsset deletes an given asset from the world state.
     async DeleteAsset(ctx, id) {
+        
+        const arr = ctx.clientIdentity.getID().split('/');
+        for (const item of arr) {
+            const part = item.split('=');
+            if (part[0] === 'CN') {
+                const clientName = part[1];
+                if (clientName === 'User2::') {
+                    throw new Error(`You are not authorized to perform this action`);
+                }
+            }
+        }
+
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
