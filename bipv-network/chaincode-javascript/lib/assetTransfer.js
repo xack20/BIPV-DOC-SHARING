@@ -16,25 +16,15 @@ class AssetTransfer extends Contract {
     async InitLedger(ctx) {
         const assets = [
             {
-                documentNo : '672',
-                documentType : 'Contract Document',
-                dateReceived : '03/01/2021',
-                projectStage : 'Inception',
+                id : '671',
                 documentSize : '1268 KB',
-                receivedBy : 'Fanzai (Design consultant) ',
-                sentBy : 'Taizhou Haineng New Energy Group Co., Ltd. (Client)',
-                mainContent : 'Design Consulting Contract',
+                owner : 'User1',
                 documentLink : 'https://www.google.com',
             },
             {
-                documentNo : '673',
-                documentType : 'Report about the design (PPT)',
-                dateReceived : '03/01/2021',
-                projectStage : 'Design',
-                documentSize : '62971 KB',
-                receivedBy : 'Fanzai (Design consultant) ',
-                sentBy : 'Taizhou Haineng New Energy Group Co., Ltd. (Client)',
-                mainContent : 'Report about the design (PPT)',
+                id : '672',
+                documentSize : '512 KB',
+                owner : 'User2',
                 documentLink : 'https://www.facebook.com',
             },
         ];
@@ -45,43 +35,31 @@ class AssetTransfer extends Contract {
             // use convetion of alphabetic order
             // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
             // when retrieving data, in any lang, the order of data will be the same and consequently also the corresonding hash
-            await ctx.stub.putState(asset.documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
+            await ctx.stub.putState(asset.id, Buffer.from(stringify(sortKeysRecursive(asset))));
         }
     }
 
     // CreateAsset issues a new asset to the world state with given details.
-    async CreateAsset(ctx, documentNo, documentType, dateReceived, projectStage, documentSize, receivedBy, sentBy, mainContent, documentLink) {
-
-
-        const arr = ctx.clientIdentity.getID().split('/');
-        for (const item of arr) {
-            const part = item.split('=');
-            if (part[0] === 'CN') {
-                const clientName = part[1];
-                if (clientName === 'User2::') {
-                    throw new Error(`You are not authorized to perform this action`);
-                }
-            }
-        }
+    async CreateAsset(ctx, id,documentName, documentType, documentSize, documentLink){
 
         const exists = await this.AssetExists(ctx, documentNo);
         if (exists) {
             throw new Error(`The asset ${documentNo} already exists`);
         }
 
+        const userName = await getID(ctx);
+
         const asset = {
-            documentNo: documentNo,
+            id: id,
+            documentName: documentName,
             documentType: documentType,
-            dateReceived: dateReceived,
-            projectStage: projectStage,
             documentSize: documentSize,
-            receivedBy: receivedBy,
-            sentBy: sentBy,
-            mainContent: mainContent,
             documentLink: documentLink,
+            lastModification: (new Date(Date.now())).toUTCString(),
+            ownedBy: userName,
         };
         //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        await ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
+        await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
         return JSON.stringify(asset);
     }
 
@@ -94,66 +72,49 @@ class AssetTransfer extends Contract {
         return assetJSON.toString();
     }
 
-    // UpdateAsset updates an existing asset in the world state with provided parameters.
-    async UpdateAsset(ctx, documentNo, documentType, dateReceived, projectStage, documentSize, receivedBy, sentBy, mainContent, documentLink) {
 
-        const arr = ctx.clientIdentity.getID().split('/');
-        for (const item of arr) {
-            const part = item.split('=');
-            if (part[0] === 'CN') {
-                const clientName = part[1];
-                if (clientName === 'User2::') {
-                    throw new Error(`You are not authorized to perform this action`);
-                }
-            }
-        }
-
-
-        const exists = await this.AssetExists(ctx, documentNo);
-        if (!exists) {
-            throw new Error(`The asset ${documentNo} does not exist`);
-        }
-
-        // overwriting original asset with new asset
-        const updatedAsset = {
-            documentNo: documentNo,
-            documentType: documentType,
-            dateReceived: dateReceived,
-            projectStage: projectStage,
-            documentSize: documentSize,
-            receivedBy: receivedBy,
-            sentBy: sentBy,
-            mainContent: mainContent,
-            documentLink: documentLink,
-        };
-        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        return ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
+    async GetID(ctx) {
+        const arr1 = ctx.clientIdentity.getID().split('::');
+        const arr2 = arr1[1].split('/');
+        const arr3 = arr2[4].split('=');
+        return arr3[1];
     }
 
-    // DeleteAsset deletes an given asset from the world state.
-    async DeleteAsset(ctx, id) {
-        
-        const arr = ctx.clientIdentity.getID().split('/');
-        for (const item of arr) {
-            const part = item.split('=');
-            if (part[0] === 'CN') {
-                const clientName = part[1];
-                if (clientName === 'User2::') {
-                    throw new Error(`You are not authorized to perform this action`);
-                }
-            }
-        }
+    // UpdateAsset updates an existing asset in the world state with provided parameters.
+    async UpdateAsset(ctx, id,documentName, documentType, documentSize, documentLink) {
 
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
         }
+
+        // overwriting original asset with new asset
+        const updatedAsset = {
+            id: id,
+            documentName: documentName,
+            documentType: documentType,
+            documentSize: documentSize,
+            documentLink: documentLink,
+            lastModification: (new Date(Date.now())).toUTCString(),
+        };
+        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
+        return ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
+    }
+
+    // DeleteAsset deletes an given asset from the world state.
+    async DeleteAsset(ctx, id) {
+        
+        const exists = await this.AssetExists(ctx, id);
+        if (!exists) {
+            throw new Error(`The asset ${id} does not exist`);
+        }
+
         return ctx.stub.deleteState(id);
     }
 
     // AssetExists returns true when asset with given ID exists in world state.
-    async AssetExists(ctx, documentNo) {
-        const assetJSON = await ctx.stub.getState(documentNo);
+    async AssetExists(ctx, id) {
+        const assetJSON = await ctx.stub.getState(id);
         return assetJSON && assetJSON.length > 0;
     }
 

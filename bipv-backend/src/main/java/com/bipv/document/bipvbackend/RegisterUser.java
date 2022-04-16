@@ -118,6 +118,7 @@ public class RegisterUser {
 		RegistrationRequest registrationRequest = new RegistrationRequest(userName);
 		registrationRequest.setAffiliation("org"+ORG+".department1");
 		registrationRequest.setEnrollmentID(userName);
+		registrationRequest.setType("client");
 		String enrollmentSecret = caClient.register(registrationRequest, admin);
 		Enrollment enrollment = caClient.enroll(userName, enrollmentSecret);
 		Identity user = Identities.newX509Identity("Org"+ORG+"MSP", enrollment);

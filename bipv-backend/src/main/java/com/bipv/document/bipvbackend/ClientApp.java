@@ -89,15 +89,21 @@ public class ClientApp {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				DocumentInfo doc = new DocumentInfo();
+
 				doc.setDocumentNo(jsonObject.getString("documentNo"));
+				// doc.setId(jsonObject.getString("id"));
 				doc.setDocumentLink(jsonObject.getString("documentLink"));
 				doc.setDocumentType(jsonObject.getString("documentType"));
-				doc.setDateReceived(jsonObject.getString("dateReceived"));
-				doc.setProjectStage(jsonObject.getString("projectStage"));
 				doc.setDocumentSize(jsonObject.getString("documentSize"));
-				doc.setSentBy(jsonObject.getString("sentBy"));
-				doc.setReceivedBy(jsonObject.getString("receivedBy"));
-				doc.setMainContent(jsonObject.getString("mainContent"));
+				doc.setDocName(jsonObject.getString("documentName"));
+				doc.setLastModification(jsonObject.getString("lastModification"));
+				doc.setOwner(jsonObject.getString("ownedBy"));
+
+				// doc.setDateReceived(jsonObject.getString("dateReceived"));
+				// // doc.setProjectStage(jsonObject.getString("projectStage"));
+				// doc.setSentBy(jsonObject.getString("sentBy"));
+				// doc.setReceivedBy(jsonObject.getString("receivedBy"));
+				// doc.setMainContent(jsonObject.getString("mainContent"));
 
 				docList.add(doc);
 			}
@@ -133,10 +139,8 @@ public class ClientApp {
 			// call the chaincode function
 			try {
 				contract.submitTransaction("CreateAsset", payload.get(
-						"documentNo"), payload.get("documentType"),
-						payload.get("dateReceived"), payload.get("projectStage"), payload.get("documentSize"),
-						payload.get("receivedBy"),
-						payload.get("sentBy"), payload.get("mainContent"),
+						"documentNo"), payload.get("id"),
+						payload.get("documentType"), payload.get("documentSize"),
 						payload.get("documentLink"));
 			} catch (Exception e) {
 				return e.getMessage();
@@ -173,10 +177,8 @@ public class ClientApp {
 
 			// call the chaincode function
 			contract.submitTransaction("UpdateAsset", payload.get(
-					"documentNo"), payload.get("documentType"),
-					payload.get("dateReceived"), payload.get("projectStage"), payload.get("documentSize"),
-					payload.get("receivedBy"),
-					payload.get("sentBy"), payload.get("mainContent"),
+					"documentNo"), payload.get("documentName"),
+					payload.get("documentType"), payload.get("documentSize"),
 					payload.get("documentLink"));
 
 			return GetAllAssets(payload.get("userName"));
@@ -218,14 +220,19 @@ public class ClientApp {
 			DocumentInfo doc = new DocumentInfo();
 
 			doc.setDocumentNo(jsonObject.getString("documentNo"));
+			// doc.setId(jsonObject.getString("id"));
 			doc.setDocumentLink(jsonObject.getString("documentLink"));
 			doc.setDocumentType(jsonObject.getString("documentType"));
-			doc.setDateReceived(jsonObject.getString("dateReceived"));
-			doc.setProjectStage(jsonObject.getString("projectStage"));
 			doc.setDocumentSize(jsonObject.getString("documentSize"));
-			doc.setSentBy(jsonObject.getString("sentBy"));
-			doc.setReceivedBy(jsonObject.getString("receivedBy"));
-			doc.setMainContent(jsonObject.getString("mainContent"));
+			doc.setDocName(jsonObject.getString("documentName"));
+			doc.setLastModification(jsonObject.getString("lastModification"));
+			doc.setOwner(jsonObject.getString("ownedBy"));
+
+			// doc.setDateReceived(jsonObject.getString("dateReceived"));
+			// // doc.setProjectStage(jsonObject.getString("projectStage"));
+			// doc.setSentBy(jsonObject.getString("sentBy"));
+			// doc.setReceivedBy(jsonObject.getString("receivedBy"));
+			// doc.setMainContent(jsonObject.getString("mainContent"));
 
 			return doc;
 		}
@@ -259,5 +266,34 @@ public class ClientApp {
 			return GetAllAssets(payload.get("userName"));
 		}
 	}
+
+    public static Object GetID(Map<String, String> payload) throws Exception {
+        // Load a file system based wallet for managing identities.
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+		// String ORG = "1";
+
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, payload.get("userName"))
+				.networkConfig(networkConfigPath)
+				.discovery(true);
+
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
+
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
+
+			byte[] result = contract.evaluateTransaction("GetID");
+
+			return new String(result);
+		}
+    }
 
 }

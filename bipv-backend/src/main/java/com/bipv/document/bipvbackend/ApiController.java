@@ -44,7 +44,9 @@ public class ApiController {
 
 	@PostMapping("/addAsset")
 	public Response addAsset(@RequestBody Map<String, String> payload) throws Exception{
-		System.out.println("Create Payload: " + payload.get("userName") + " " + payload.get("documentNo"));
+		
+		System.out.println("Create Payload: " + payload.get("userName") + " " + payload.get("id"));
+
 		Response response = new Response(true, "New Asset Created!", ClientApp.AddAsset(payload));
 		return response;
 	}
@@ -60,6 +62,12 @@ public class ApiController {
 	public Response deleteAsset(@RequestBody Map<String, String> payload) throws Exception {
 		System.out.println("Delete Payload: " + payload.get("userName") + " " + payload.get("documentNo"));
 		Response response = new Response(true, "Asset Successfully Deleted!", ClientApp.DeleteAsset(payload));
+		return response;
+	}
+
+	@PostMapping("/getID")
+	public Response getID(@RequestBody Map<String, String> payload) throws Exception {
+		Response response = new Response(true, "ID Fetched!", ClientApp.GetID(payload));
 		return response;
 	}
 

@@ -6,6 +6,7 @@
 
 'use strict';
 
+// const assetTransfer = require('./lib/assetTransfer');
 const assetTransfer = require('./lib/assetTransfer');
 
 module.exports.AssetTransfer = assetTransfer;
