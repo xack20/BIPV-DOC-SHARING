@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 
 import java.nio.file.Paths;
 import java.security.PrivateKey;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -29,17 +30,17 @@ public class RegisterUser {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
 	}
 
-	public static String registerUser(String userName) throws Exception {
+	public static String registerUser(Map<String, String> payload) throws Exception {
 
 		// Create a CA client for interacting with the CA.
 		Properties props = new Properties();
 		
 		
 		
-		String ORG = "1";
+		String ORG = payload.get("org");
 		String PORT = "7054";
 		
-		props.put("pemFile","/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem");
+		props.put("pemFile","/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/"+ORG+".example.com/ca/ca."+ORG+".example.com-cert.pem");
 		
 		props.put("allowAllHostNames", "true");
 		
@@ -55,7 +56,7 @@ public class RegisterUser {
 		Wallet wallet = Wallets.newFileSystemWallet(Paths.get("wallet"));
 
 		// Check to see if we've already enrolled the user.
-		if (wallet.get(userName) != null) {
+		if (wallet.get(payload.get("userName")) != null) {
 			System.out.println("An identity for the user \"appUser\" already exists in the wallet");
 			return "An identity for the user \"appUser\" already exists in the wallet";
 		}
@@ -115,16 +116,16 @@ public class RegisterUser {
 		};
 
 		// Register the user, enroll the user, and import the new identity into the wallet.
-		RegistrationRequest registrationRequest = new RegistrationRequest(userName);
+		RegistrationRequest registrationRequest = new RegistrationRequest(payload.get("userName"));
 		registrationRequest.setAffiliation("org"+ORG+".department1");
-		registrationRequest.setEnrollmentID(userName);
+		registrationRequest.setEnrollmentID(payload.get("userName"));
 		registrationRequest.setType("client");
 		String enrollmentSecret = caClient.register(registrationRequest, admin);
-		Enrollment enrollment = caClient.enroll(userName, enrollmentSecret);
+		Enrollment enrollment = caClient.enroll(payload.get("userName"), enrollmentSecret);
 		Identity user = Identities.newX509Identity("Org"+ORG+"MSP", enrollment);
-		wallet.put(userName, user);
+		wallet.put(payload.get("userName"), user);
 		
-		return "Successfully enrolled user \""+userName+"\" and imported it into the wallet";
+		return "Successfully enrolled user \""+payload.get("userName")+"\" and imported it into the wallet";
 	}
 
 }

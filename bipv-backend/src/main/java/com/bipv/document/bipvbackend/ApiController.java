@@ -11,28 +11,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApiController {
 	
-	@GetMapping("/enrollAdmin")
+	@PostMapping("/enrollAdmin")
 	public Response enrollAdmin() throws Exception {
 		Response response = new Response(true, "Admin enrolled successfully", EnrollAdmin.enrollAdmin());
 		return response;
 	}
 	
 	@PostMapping("/registerUser")
-	public Response registerUser(String userName) throws Exception {
+	public Response registerUser(@RequestBody Map<String, String> payload) throws Exception {
 		
-		Response response = new Response(true, "User Registered Successfully", RegisterUser.registerUser(userName));
+		Response response = new Response(true, "User Registered Successfully", RegisterUser.registerUser(payload));
 		return response;
 	}
 
-	@GetMapping("/init")
-	public Response init(String userName) throws Exception {
-		Response response = new Response(true, "Leedger Inited", ClientApp.InitLedger(userName));
+	@PostMapping("/init")
+	public Response init(@RequestBody Map<String, String> payload) throws Exception {
+		Response response = new Response(true, "Leedger Inited", ClientApp.InitLedger(payload.get("userName")));
 		return response;
 	}
 	
 	@GetMapping("/assets")
-	public Response allAssets(String userName) throws Exception {
-		Response response = new Response(true, "All Data Fetched", ClientApp.GetAllAssets(userName));
+	public Response allAssets(@RequestBody Map<String, String> payload) throws Exception {
+		Response response = new Response(true, "All Data Fetched", ClientApp.GetAllAssets(payload.get("userName")));
 		return response;
 	}
 
@@ -72,7 +72,7 @@ public class ApiController {
 		return response;
 	}
 
-	@PostMapping("/getID")
+	@GetMapping("/getID")
 	public Response getID(@RequestBody Map<String, String> payload) throws Exception {
 		Response response = new Response(true, "ID Fetched!", ClientApp.GetID(payload));
 		return response;
