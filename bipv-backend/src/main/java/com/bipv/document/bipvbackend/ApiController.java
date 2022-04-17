@@ -58,6 +58,13 @@ public class ApiController {
 		return response;
 	}
 
+
+	@PostMapping("/transferAsset")
+	public Response transferAsset(@RequestBody Map<String, String> payload) throws Exception {
+		Response response = new Response(true, "Asset Transfer Successfully!", ClientApp.TransferAsset(payload));
+		return response;
+	}
+
 	@PostMapping("/deleteAsset")
 	public Response deleteAsset(@RequestBody Map<String, String> payload) throws Exception {
 		System.out.println("Delete Payload: " + payload.get("userName") + " " + payload.get("documentNo"));

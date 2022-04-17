@@ -20,7 +20,7 @@ public class ClientApp {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
 	}
 
-	public static String InitLedger(String userName) throws Exception {
+	public static Object InitLedger(String userName) throws Exception {
 
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
@@ -50,7 +50,7 @@ public class ClientApp {
 		}
 	}
 
-	public static ArrayList<DocumentInfo> GetAllAssets(String userName) throws Exception {
+	public static Object GetAllAssets(String userName) throws Exception {
 
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
@@ -74,9 +74,7 @@ public class ClientApp {
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("basic");
 
-			
 			byte[] result;
-
 
 			result = contract.evaluateTransaction("GetAllAssets");
 
@@ -95,15 +93,15 @@ public class ClientApp {
 				doc.setDocumentLink(jsonObject.getString("documentLink"));
 				doc.setDocumentType(jsonObject.getString("documentType"));
 				doc.setDocumentSize(jsonObject.getString("documentSize"));
-				doc.setDocName(jsonObject.getString("documentName"));
+				// doc.setDocName(jsonObject.getString("documentName"));
 				doc.setLastModification(jsonObject.getString("lastModification"));
-				doc.setOwner(jsonObject.getString("ownedBy"));
+				// doc.setOwner(jsonObject.getString("ownedBy"));
 
-				// doc.setDateReceived(jsonObject.getString("dateReceived"));
-				// // doc.setProjectStage(jsonObject.getString("projectStage"));
-				// doc.setSentBy(jsonObject.getString("sentBy"));
-				// doc.setReceivedBy(jsonObject.getString("receivedBy"));
-				// doc.setMainContent(jsonObject.getString("mainContent"));
+				doc.setDateReceived(jsonObject.getString("dateReceived"));
+				doc.setProjectStage(jsonObject.getString("projectStage"));
+				doc.setSentBy(jsonObject.getString("sentBy"));
+				doc.setReceivedBy(jsonObject.getString("receivedBy"));
+				doc.setMainContent(jsonObject.getString("mainContent"));
 
 				docList.add(doc);
 			}
@@ -138,19 +136,21 @@ public class ClientApp {
 
 			// call the chaincode function
 			try {
-				contract.submitTransaction("CreateAsset", payload.get(
-						"documentNo"), payload.get("id"),
-						payload.get("documentType"), payload.get("documentSize"),
-						payload.get("documentLink"));
+				contract.submitTransaction("CreateAsset", 
+						payload.get("documentNo"), 
+						payload.get("documentType"),
+						payload.get("projectStage"),
+						payload.get("documentSize"),
+						payload.get("mainContent"),
+						payload.get("documentLink")
+				);
 			} catch (Exception e) {
 				return e.getMessage();
 			}
 
-			return GetAllAssets(payload.get("userName"));
+			return ReadAsset(payload);
 		}
 	}
-
-
 
 	public static Object UpdateAsset(Map<String, String> payload) throws Exception {
 		// Load a file system based wallet for managing identities.
@@ -176,18 +176,20 @@ public class ClientApp {
 			Contract contract = network.getContract("basic");
 
 			// call the chaincode function
-			contract.submitTransaction("UpdateAsset", payload.get(
-					"documentNo"), payload.get("documentName"),
-					payload.get("documentType"), payload.get("documentSize"),
-					payload.get("documentLink"));
+			contract.submitTransaction("UpdateAsset", 
+					payload.get("documentNo"), 
+					payload.get("documentType"), 
+					payload.get("projectStage"),
+					payload.get("documentSize"), 
+					payload.get("mainContent"),
+					payload.get("documentLink")
+				);
 
-			return GetAllAssets(payload.get("userName"));
+			return ReadAsset(payload);
 		}
 	}
 
-
-
-	public static DocumentInfo ReadAsset(Map<String, String> payload) throws Exception {
+	public static Object ReadAsset(Map<String, String> payload) throws Exception {
 
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
@@ -210,7 +212,6 @@ public class ClientApp {
 			// get the network and contract
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("basic");
-
 
 			byte[] result = contract.evaluateTransaction("ReadAsset", payload.get("documentNo"));
 
@@ -224,21 +225,21 @@ public class ClientApp {
 			doc.setDocumentLink(jsonObject.getString("documentLink"));
 			doc.setDocumentType(jsonObject.getString("documentType"));
 			doc.setDocumentSize(jsonObject.getString("documentSize"));
-			doc.setDocName(jsonObject.getString("documentName"));
+			// doc.setDocName(jsonObject.getString("documentName"));
 			doc.setLastModification(jsonObject.getString("lastModification"));
-			doc.setOwner(jsonObject.getString("ownedBy"));
+			// doc.setOwner(jsonObject.getString("ownedBy"));
 
-			// doc.setDateReceived(jsonObject.getString("dateReceived"));
-			// // doc.setProjectStage(jsonObject.getString("projectStage"));
-			// doc.setSentBy(jsonObject.getString("sentBy"));
-			// doc.setReceivedBy(jsonObject.getString("receivedBy"));
-			// doc.setMainContent(jsonObject.getString("mainContent"));
+			doc.setDateReceived(jsonObject.getString("dateReceived"));
+			doc.setProjectStage(jsonObject.getString("projectStage"));
+			doc.setSentBy(jsonObject.getString("sentBy"));
+			doc.setReceivedBy(jsonObject.getString("receivedBy"));
+			doc.setMainContent(jsonObject.getString("mainContent"));
 
 			return doc;
 		}
 	}
 
-	public static Object DeleteAsset(Map<String, String> payload)throws Exception {
+	public static Object DeleteAsset(Map<String, String> payload) throws Exception {
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
@@ -261,14 +262,14 @@ public class ClientApp {
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("basic");
 
-			contract.evaluateTransaction("DeleteAsset", payload.get("documentNo"));
+			contract.submitTransaction("DeleteAsset", payload.get("documentNo"));
 
 			return GetAllAssets(payload.get("userName"));
 		}
 	}
 
-    public static Object GetID(Map<String, String> payload) throws Exception {
-        // Load a file system based wallet for managing identities.
+	public static Object GetID(Map<String, String> payload) throws Exception {
+		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
@@ -294,6 +295,34 @@ public class ClientApp {
 
 			return new String(result);
 		}
-    }
+	}
+
+	public static Object TransferAsset(Map<String, String> payload) throws Exception {
+		Path walletPath = Paths.get("wallet");
+		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+		// String ORG = "1";
+
+		// load a CCP
+		Path networkConfigPath = Paths.get(
+				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+
+		Gateway.Builder builder = Gateway.createBuilder()
+				.identity(wallet, payload.get("userName"))
+				.networkConfig(networkConfigPath)
+				.discovery(true);
+
+		// create a gateway connection
+		try (Gateway gateway = builder.connect()) {
+
+			// get the network and contract
+			Network network = gateway.getNetwork("mychannel");
+			Contract contract = network.getContract("basic");
+
+			contract.submitTransaction("TransferAsset", payload.get("documentNo"), payload.get("newOwner"));
+
+			return ReadAsset(payload);
+		}
+	}
 
 }

@@ -10,10 +10,11 @@ public class DocumentInfo {
     private String receivedBy;
     private String mainContent;
     private String documentLink;
-    private String ownedBy;
-    private String documentName;
+
+    // private String ownedBy;
+    // private String documentName;
     private String lastModification;
-    private String id;
+    // private String id;
 
     public String getLastModification() {
         return this.lastModification;
@@ -23,29 +24,29 @@ public class DocumentInfo {
         this.lastModification = lastModification;
     }
 
-    public String getId() {
-        return this.id;
-    }
+    // public String getId() {
+    //     return this.id;
+    // }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    // public void setId(String id) {
+    //     this.id = id;
+    // }
 
-    public String getOwnedBy() {
-        return this.ownedBy;
-    }
+    // public String getOwnedBy() {
+    //     return this.ownedBy;
+    // }
 
-    public void setOwner(String owner) {
-        this.ownedBy = owner;
-    }
+    // public void setOwner(String owner) {
+    //     this.ownedBy = owner;
+    // }
 
-    public String getDocName() {
-        return this.documentName;
-    }
+    // public String getDocName() {
+    //     return this.documentName;
+    // }
 
-    public void setDocName(String name) {
-        this.documentName = name;
-    }
+    // public void setDocName(String name) {
+    //     this.documentName = name;
+    // }
 
     public String getDocumentNo() {
         return this.documentNo;

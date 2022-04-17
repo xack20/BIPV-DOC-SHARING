@@ -1,3 +1,9 @@
+/*
+ * Copyright IBM Corp. All Rights Reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 'use strict';
 
 // Deterministic JSON.stringify()
@@ -7,42 +13,19 @@ const { Contract } = require('fabric-contract-api');
 
 class AssetTransfer extends Contract {
 
-
-    async GetID(ctx) {
-        const arr1 = ctx.clientIdentity.getID().split('::');
-        const arr2 = arr1[1].split('/');
-        const arr3 = arr2[4].split('=');
-        return arr3[1];
-    }
-
     async InitLedger(ctx) {
-
-        const user = await this.GetID(ctx);
-
         const assets = [
             {
-                documentNo : '672',
-                documentType : 'Contract Document',
-                dateReceived : '03/01/2021',
-                projectStage : 'Inception',
+                documentNo : '671',
                 documentSize : '1268 KB',
-                receivedBy : user,
-                sentBy : 'Taizhou Haineng New Energy Group Co., Ltd. (Client)',
-                mainContent : 'Design Consulting Contract',
+                owner : 'User1',
                 documentLink : 'https://www.google.com',
-                lastModification: (new Date(Date.now())).toUTCString(),
             },
             {
-                documentNo : '673',
-                documentType : 'Report about the design (PPT)',
-                dateReceived : '03/01/2021',
-                projectStage : 'Design',
-                documentSize : '62971 KB',
-                receivedBy : user,
-                sentBy : 'Taizhou Haineng New Energy Group Co., Ltd. (Client)',
-                mainContent : 'Report about the design (PPT)',
+                documentNo : '672',
+                documentSize : '512 KB',
+                owner : 'User2',
                 documentLink : 'https://www.facebook.com',
-                lastModification: (new Date(Date.now())).toUTCString(),
             },
         ];
 
@@ -57,37 +40,34 @@ class AssetTransfer extends Contract {
     }
 
     // CreateAsset issues a new asset to the world state with given details.
-    async CreateAsset(ctx, documentNo, documentType, projectStage, documentSize, mainContent, documentLink) {
-
-        const user = await this.GetID(ctx);
+    async CreateAsset(ctx, documentNo,documentName, documentType, documentSize, documentLink){
 
         const exists = await this.AssetExists(ctx, documentNo);
         if (exists) {
             throw new Error(`The asset ${documentNo} already exists`);
         }
 
+        const userName = await this.GetID(ctx);
+
         const asset = {
             documentNo: documentNo,
+            documentName: documentName,
             documentType: documentType,
-            dateReceived: "",
-            projectStage: projectStage,
             documentSize: documentSize,
-            receivedBy: user,
-            sentBy: "",
-            mainContent: mainContent,
             documentLink: documentLink,
             lastModification: (new Date(Date.now())).toUTCString(),
+            ownedBy: userName,
         };
         //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
         return JSON.stringify(asset);
     }
 
-    // ReadAsset returns the asset stored in the world state with given id.
-    async ReadAsset(ctx, id) {
-        const assetJSON = await ctx.stub.getState(id); // get the asset from chaincode state
+    // ReadAsset returns the asset stored in the world state with given documentNo.
+    async ReadAsset(ctx, documentNo) {
+        const assetJSON = await ctx.stub.getState(documentNo); // get the asset from chaincode state
         if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The asset ${id} does not exist`);
+            throw new Error(`The asset ${documentNo} does not exist`);
         }
         return assetJSON.toString();
     }
@@ -100,56 +80,36 @@ class AssetTransfer extends Contract {
         return arr3[1];
     }
 
-    async GetOwner(ctx, id) {
-        const assetString = await this.ReadAsset(ctx, id);
-        const asset = JSON.parse(assetString);
-        return asset.receivedBy;
-    }
-
     // UpdateAsset updates an existing asset in the world state with provided parameters.
-    async UpdateAsset(ctx, documentNo, documentType, projectStage, documentSize, mainContent, documentLink) {
-
-
-        const user = await this.GetID(ctx);
-        const owner = await this.GetOwner(ctx, documentNo);
-        if(user !== owner) {
-            throw new Error(`You are not authorized to perform this action`);
-        }
+    async UpdateAsset(ctx, documentNo,documentName, documentType, documentSize, documentLink) {
 
         const exists = await this.AssetExists(ctx, documentNo);
         if (!exists) {
             throw new Error(`The asset ${documentNo} does not exist`);
         }
 
-        const assetString = await this.ReadAsset(ctx, documentNo);
-        const asset = JSON.parse(assetString);
-
         // overwriting original asset with new asset
-        asset.documentType = documentType;
-        asset.projectStage = projectStage;
-        asset.documentSize = documentSize;
-        asset.mainContent = mainContent;
-        asset.documentLink = documentLink;
-        asset.lastModification = (new Date(Date.now())).toUTCString();
-
+        const updatedAsset = {
+            documentNo: documentNo,
+            documentName: documentName,
+            documentType: documentType,
+            documentSize: documentSize,
+            documentLink: documentLink,
+            lastModification: (new Date(Date.now())).toUTCString(),
+        };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        return await ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
+        return ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
     }
 
     // DeleteAsset deletes an given asset from the world state.
-    async DeleteAsset(ctx, id) {
-
-        const user = await this.GetID(ctx);
-        const owner = await this.GetOwner(ctx, id);
-        if(user !== owner) {
-            throw new Error(`You are not authorized to perform this action`);
-        }
-
-        const exists = await this.AssetExists(ctx, id);
+    async DeleteAsset(ctx, documentNo) {
+        
+        const exists = await this.AssetExists(ctx, documentNo);
         if (!exists) {
-            throw new Error(`The asset ${id} does not exist`);
+            throw new Error(`The asset ${documentNo} does not exist`);
         }
-        return await ctx.stub.deleteState(id);
+
+        return ctx.stub.deleteState(documentNo);
     }
 
     // AssetExists returns true when asset with given ID exists in world state.
@@ -158,30 +118,18 @@ class AssetTransfer extends Contract {
         return assetJSON && assetJSON.length > 0;
     }
 
-    // TransferAsset updates the owner field of asset with given id in the world state.
+    // TransferAsset updates the owner field of asset with given documentNo in the world state.
     async TransferAsset(ctx, documentNo, newOwner) {
-
-        const user = await this.GetID(ctx);
-        const owner = await this.GetOwner(ctx, documentNo);
-
-        // return user+" "+owner + " "+newOwner;
-
-        if(user !== owner) {
-            throw new Error(`You are not authorized to perform this action`);
-        }
-
-        
         const assetString = await this.ReadAsset(ctx, documentNo);
-
         const asset = JSON.parse(assetString);
-        
-        asset.sentBy = user;
-        asset.receivedBy = newOwner;
-        asset.dateReceived = (new Date(Date.now())).toUTCString();
-        asset.lastModification = asset.dateReceived;
+
+        asset.lastModification = (new Date(Date.now())).toUTCString();
+        asset.ownedBy = newOwner;
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-         return await ctx.stub.putState(asset.documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
+        const assetJSON = await ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
+        
+        return assetJSON.toString();
     }
 
     // GetAllAssets returns all assets found in the world state.
