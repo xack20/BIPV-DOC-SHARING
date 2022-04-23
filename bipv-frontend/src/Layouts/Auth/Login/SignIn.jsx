@@ -10,15 +10,14 @@ import { enrollAdmin, getUser, registerUser } from "../../../Services/Service";
 const SignIn = () => {
   
   const onFinish = async(values) => {
-    console.log("Received values of form: ", values);
-    
-    const { username, organization } = values;
     
     const {data} = await getUser(values);
     if(data.length > 0){
-      localStorage.setItem("user", JSON.stringify(data[0]));
 
-      await enrollAdmin();
+      localStorage.setItem("user", JSON.stringify(data[0]));
+      const { username, organization } = data[0];
+      
+      await enrollAdmin({"org" : data[0].organization});
       await registerUser({"userName" : username, "org" : organization});
       
       window.location.href = "/home";
@@ -74,9 +73,9 @@ const SignIn = () => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
+        <Link className="login-form-forgot" to="/#">
           Forgot password
-        </a>
+        </Link>
       </Form.Item>
 
       <Form.Item>

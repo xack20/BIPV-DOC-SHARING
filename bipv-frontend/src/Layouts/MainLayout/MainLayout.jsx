@@ -43,11 +43,14 @@ const Body = (props) => {
     <Layout className="layout">
       <Header>
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+        {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
           <Menu.Item key={"key1"}>
             <Link to="/login">Login</Link>
           </Menu.Item>
-        </Menu>
+        </Menu> */}
+        <Button style={{float: "right", marginTop : "1.25%" }}>
+          <Link to="/login">Logout</Link>
+        </Button>
       </Header>
       <Content style={{ padding: "0 50px" }}>
         <Breadcrumb style={{ margin: "16px 0" }}>
@@ -62,10 +65,7 @@ const Body = (props) => {
           <Button>Transfer Asset</Button>
         </div>
 
-        <div className="content">
-
-        </div>
-
+        <div className="content"></div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
         BIPV-Document-Sharing ©2022 Created by BIPV

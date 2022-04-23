@@ -42,6 +42,6 @@ export const registerUser = (data) => {
   return axios.post('/registerUser', data)
 }
 
-export const enrollAdmin = () => {
-  return axios.get('/enrollAdmin')
+export const enrollAdmin = (data) => {
+  return axios.post('/enrollAdmin',data)
 }
