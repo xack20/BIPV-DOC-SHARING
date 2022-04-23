@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 	
 	@PostMapping("/enrollAdmin")
-	public Response enrollAdmin() throws Exception {
-		Response response = new Response(true, "Admin enrolled successfully", EnrollAdmin.enrollAdmin());
+	public Response enrollAdmin(@RequestBody Map<String, String> payload) throws Exception {
+		Response response = new Response(true, "Admin enrolled successfully", EnrollAdmin.enrollAdmin(payload));
 		return response;
 	}
 	
@@ -26,13 +26,13 @@ public class ApiController {
 
 	@PostMapping("/init")
 	public Response init(@RequestBody Map<String, String> payload) throws Exception {
-		Response response = new Response(true, "Leedger Inited", ClientApp.InitLedger(payload.get("userName")));
+		Response response = new Response(true, "Leedger Inited", ClientApp.InitLedger(payload));
 		return response;
 	}
 	
 	@GetMapping("/assets")
 	public Response allAssets(@RequestBody Map<String, String> payload) throws Exception {
-		Response response = new Response(true, "All Data Fetched", ClientApp.GetAllAssets(payload.get("userName")));
+		Response response = new Response(true, "All Data Fetched", ClientApp.GetAllAssets(payload));
 		return response;
 	}
 

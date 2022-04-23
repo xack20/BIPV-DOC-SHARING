@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.bipv.document.bipvbackend.config.Config;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Network;
@@ -20,20 +21,28 @@ public class ClientApp {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
 	}
 
-	public static Object InitLedger(String userName) throws Exception {
+	public static Object InitLedger(Map<String, String> payload) throws Exception {
 
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
-				.identity(wallet, userName)
+				.identity(wallet, payload.get("userName"))
 				.networkConfig(networkConfigPath)
 				.discovery(true);
 
@@ -50,20 +59,29 @@ public class ClientApp {
 		}
 	}
 
-	public static Object GetAllAssets(String userName) throws Exception {
+	public static Object GetAllAssets(Map<String, String> payload) throws Exception {
 
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir") + "/bipv-network/test-network/organizations/peerOrganizations/org" + ORG
+						+ ".example.com/connection-org" + ORG + "-peer" + PEER + ".json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
-				.identity(wallet, userName)
+				.identity(wallet, payload.get("userName"))
 				.networkConfig(networkConfigPath)
 				.discovery(true);
 
@@ -116,11 +134,19 @@ public class ClientApp {
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, payload.get("userName"))
@@ -157,11 +183,19 @@ public class ClientApp {
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, payload.get("userName"))
@@ -195,11 +229,19 @@ public class ClientApp {
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, payload.get("userName"))
@@ -244,11 +286,22 @@ public class ClientApp {
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
+
+		// Path networkConfigPath = Paths.get(
+		// 		System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, payload.get("userName"))
@@ -264,7 +317,7 @@ public class ClientApp {
 
 			contract.submitTransaction("DeleteAsset", payload.get("documentNo"));
 
-			return GetAllAssets(payload.get("userName"));
+			return GetAllAssets(payload);
 		}
 	}
 
@@ -273,11 +326,19 @@ public class ClientApp {
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = payload.get("org").split("org")[1];
+		String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
+				Config.peer_org2);
+
+		if(ORG.equals("1")) {
+			Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+		} else {
+			Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+		}
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, payload.get("userName"))
@@ -301,11 +362,13 @@ public class ClientApp {
 		Path walletPath = Paths.get("wallet");
 		Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
-		// String ORG = "1";
+		String ORG = "1";
+		String PEER = "0";
 
 		// load a CCP
 		Path networkConfigPath = Paths.get(
-				"/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+				System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/connection-org"+ORG+"-peer"+PEER+".json");
+				
 
 		Gateway.Builder builder = Gateway.createBuilder()
 				.identity(wallet, payload.get("userName"))

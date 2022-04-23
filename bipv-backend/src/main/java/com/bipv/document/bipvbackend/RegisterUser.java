@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import com.bipv.document.bipvbackend.config.Config;
+
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.gateway.Wallets;
 import org.hyperledger.fabric.gateway.Identities;
@@ -30,17 +32,16 @@ public class RegisterUser {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
 	}
 
-	public static String registerUser(Map<String, String> payload) throws Exception {
+	public static String registerUser( Map<String, String> payload) throws Exception {
 
 		// Create a CA client for interacting with the CA.
 		Properties props = new Properties();
 		
+		String ORG = payload.get("org").split("org")[1];
+		String PORT = Config.ca_ports.get(payload.get("org"));
 		
-		
-		String ORG = payload.get("org");
-		String PORT = "7054";
-		
-		props.put("pemFile","/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/"+ORG+".example.com/ca/ca."+ORG+".example.com-cert.pem");
+		props.put("pemFile", System.getProperty("user.dir")
+				+ "/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/ca/ca.org"+ORG+".example.com-cert.pem");
 		
 		props.put("allowAllHostNames", "true");
 		
@@ -63,7 +64,7 @@ public class RegisterUser {
 		
 		
 
-		X509Identity adminIdentity = (X509Identity)wallet.get("admin");
+		X509Identity adminIdentity = (X509Identity)wallet.get( payload.get("org")+"_admin");
 		if (adminIdentity == null) {
 			System.out.println("\"admin\" needs to be enrolled and added to the wallet first");
 			return "\"admin\" needs to be enrolled and added to the wallet first";
@@ -117,15 +118,15 @@ public class RegisterUser {
 
 		// Register the user, enroll the user, and import the new identity into the wallet.
 		RegistrationRequest registrationRequest = new RegistrationRequest(payload.get("userName"));
-		registrationRequest.setAffiliation("org"+ORG+".department1");
 		registrationRequest.setEnrollmentID(payload.get("userName"));
+		registrationRequest.setAffiliation("org"+ORG+".department1");
 		registrationRequest.setType("client");
 		String enrollmentSecret = caClient.register(registrationRequest, admin);
 		Enrollment enrollment = caClient.enroll(payload.get("userName"), enrollmentSecret);
 		Identity user = Identities.newX509Identity("Org"+ORG+"MSP", enrollment);
 		wallet.put(payload.get("userName"), user);
 		
-		return "Successfully enrolled user \""+payload.get("userName")+"\" and imported it into the wallet";
+		return "Successfully enrolled user \""+ payload.get("userName")+"\" and imported it into the wallet";
 	}
 
 }

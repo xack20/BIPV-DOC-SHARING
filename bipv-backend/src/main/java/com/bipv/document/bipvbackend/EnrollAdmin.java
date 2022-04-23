@@ -6,7 +6,10 @@ SPDX-License-Identifier: Apache-2.0
 
 
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Properties;
+
+import com.bipv.document.bipvbackend.config.Config;
 
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.gateway.Wallets;
@@ -24,19 +27,25 @@ public class EnrollAdmin {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
 	}
 
-	public static String enrollAdmin() throws Exception {
+	public static String enrollAdmin(Map<String, String> payload) throws Exception {
 
 		// Create a CA client for interacting with the CA.
 		Properties props = new Properties();
 		
 		
 		
-		String ORG = "1";
-//		String PORT = "11054";
-//		String PORT = "8054";
-		String PORT = "7054";
+		String ORG = payload.get("org").split("org")[1];
+		String PORT = Config.ca_ports.get(payload.get("org"));
+
+		// System.out.println("ORG: "+ORG+"      "+ "PORT: "+PORT);
 		
-		props.put("pemFile","/home/zakaria/Desktop/BIPV-DOC-SHARING/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem");
+
+		// print project path
+		System.out.println(System.getProperty("user.dir"));
+
+		
+		props.put("pemFile",System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org"+ORG+".example.com/ca/ca.org"
+				+ ORG + ".example.com-cert.pem");
 		
 		props.put("allowAllHostNames", "true");
 		
@@ -53,7 +62,7 @@ public class EnrollAdmin {
 		Wallet wallet = Wallets.newFileSystemWallet(Paths.get("wallet"));
 
 		// Check to see if we've already enrolled the admin user.
-		if (wallet.get("admin") != null) {
+		if (wallet.get(payload.get("org") + "_admin") != null) {
 			System.out.println("An identity for the admin user \"admin\" already exists in the wallet");
 			return "An identity for the admin user \"admin\" already exists in the wallet";
 		}
@@ -67,7 +76,7 @@ public class EnrollAdmin {
 
 		Identity user = Identities.newX509Identity("Org"+ORG+"MSP", enrollment);
 		
-		wallet.put("admin", user);
+		wallet.put(payload.get("org") + "_admin", user);
 		
 		return "Successfully enrolled user \"admin\" and imported it into the wallet";
 	}
