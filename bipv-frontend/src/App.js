@@ -4,7 +4,7 @@ import { Routes, Route, BrowserRouter as Router,Navigate } from "react-router-do
 import './App.css'
 import SignIn from "./Layouts/Auth/Login/SignIn";
 import Register from "./Layouts/Auth/Signup/Register";
-import Body from "./Layouts/MainLayout/MainLayout";
+import MainLayout from "./Layouts/MainLayout/MainLayout";
 
 
 
@@ -15,7 +15,7 @@ function App() {
                 <Route exact path="/" element={<Navigate replace to="/login" />} />
                 <Route exact path="/login" element={<SignIn/>} />
                 <Route exact path="/register" element={<Register/>} />
-                <Route exact path="/home" element={<Body/>} />
+                <Route exact path="/home" element={<MainLayout/>} />
                 <Route path="*" element={<Navigate to ="/" />}/>
             </Routes>
         </Router>

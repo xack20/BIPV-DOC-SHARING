@@ -1,7 +1,8 @@
 import axios from 'axios'
 
-export const getAllAssets = (userName) => {
-  return axios.get('/assets?userName='+userName)
+export const getAllAssets = (data) => {
+  console.log(data);
+  return axios.post('/assets',data)
 }
 
 

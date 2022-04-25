@@ -357,7 +357,6 @@ const PrevBody = (props) => {
               <div style={{ marginLeft: "20%" }}>{comp}</div>
             </div>
             <div className="site-layout-content-inside">
-              {" "}
               {assets.length ? (
                 <pre className="language-bash">
                   {JSON.stringify(assets, null, 2)}

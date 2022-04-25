@@ -17,7 +17,7 @@
     padding: 24px;
     background: #fff;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-gap: 10px;
-    min-height: 700px;
+    min-height: 760px;
 }

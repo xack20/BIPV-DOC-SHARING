@@ -29,6 +29,7 @@ import {
 
 
 import "./MainLayout.css";
+import AllAsset from "../../Views/AllData/AllAsset";
 
 
 const { Header, Content, Footer } = Layout;
@@ -36,8 +37,9 @@ const { Option } = Select;
 
 
 
-const Body = (props) => {
+const MainLayout = (props) => {
   
+  const [btn, setBtn] = useState(1);
 
   return (
     <Layout className="layout">
@@ -48,7 +50,7 @@ const Body = (props) => {
             <Link to="/login">Login</Link>
           </Menu.Item>
         </Menu> */}
-        <Button style={{float: "right", marginTop : "1.25%" }}>
+        <Button style={{float: "right", marginTop : "1%" }}>
           <Link to="/login">Logout</Link>
         </Button>
       </Header>
@@ -59,13 +61,17 @@ const Body = (props) => {
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
 
-        <div className="options">
-          <Button>All Data</Button>
-          <Button>Create Asset</Button>
-          <Button>Transfer Asset</Button>
-        </div>
+        {/* <div className="options">
+          <Button onClick={()=>{setBtn(1)}}>All Data</Button>
+          <Button onClick={()=>{setBtn(2)}}>Create Asset</Button>
+          <Button onClick={()=>{setBtn(3)}}>Transfer Asset</Button>
+        </div> */}
 
-        <div className="content"></div>
+        <div className="content">
+          {btn === 1 ? <AllAsset/> : null}
+          {/* {btn === 2 ? <CreateAsset /> : null}
+          {btn === 3 ? <TransferAsset /> : null} */}
+        </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
         BIPV-Document-Sharing ©2022 Created by BIPV
@@ -74,4 +80,4 @@ const Body = (props) => {
   );
 };
 
-export default Body;
+export default MainLayout;

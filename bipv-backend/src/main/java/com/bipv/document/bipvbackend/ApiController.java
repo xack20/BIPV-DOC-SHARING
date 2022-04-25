@@ -30,8 +30,9 @@ public class ApiController {
 		return response;
 	}
 	
-	@GetMapping("/assets")
+	@PostMapping("/assets")
 	public Response allAssets(@RequestBody Map<String, String> payload) throws Exception {
+		System.out.println(payload.get("userName")+" "+payload.get("org"));
 		Response response = new Response(true, "All Data Fetched", ClientApp.GetAllAssets(payload));
 		return response;
 	}
