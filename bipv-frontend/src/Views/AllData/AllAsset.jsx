@@ -10,7 +10,11 @@ import {
   deleteAsset,
   getAllAssets,
   updateAsset,
+  getAllUsers,
 } from "../../Services/Service";
+
+import MyModal from "../../Components/MyModal/MyModal.jsx";
+import CustomSelect from "../../Components/CustomSelect/CustomSelect";
 
 const AllAsset = (props) => {
 
@@ -23,6 +27,11 @@ const AllAsset = (props) => {
       org: JSON.parse(localStorage.getItem("user")).organization,
       opt: "create",
     });
+    const [modalVisibility, setModalVisibility] = useState(false);
+
+    const [newUser,setNewUser] = useState("");
+
+    // const [users,setUsers] = useState([]);
 
     const addAsset = () => {
         setAssets([...assets, 0]);
@@ -55,6 +64,35 @@ const AllAsset = (props) => {
       getData();
     }, [state.user]);
 
+    const [assetID, setAssetID] = useState(0);
+
+
+    const transferAsset = async (asset) => {
+      console.log(assetID);
+
+        setLoading(true);
+      try {
+        await transferAsset({...assets[assetID], newOwner : newUser, userName : state.user});
+        
+        notification.success({
+          message: "Success",
+          description: "Successfully transferred asset",
+          placement: "bottomRight",
+        });
+        setModalVisibility(false);
+        
+      } catch (error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+          placement: "bottomRight",
+        });
+      }
+        setLoading(false); 
+
+        window.location.reload();
+    };
+
     return (
       <Spin
         spinning={loading}
@@ -62,6 +100,19 @@ const AllAsset = (props) => {
         tip="loading..."
         style={{ marginTop: "10%" }}
       >
+        <MyModal
+          Width={900}
+          Title={"Asset Transfer"}
+          modalVisibility={modalVisibility}
+          setModalVisibility={setModalVisibility}
+        >
+          <div className="transfer">
+            <p>Select an user to transfer this asset : </p>
+            <CustomSelect setNewUser={setNewUser} userName ={state.user}/>
+            <Button style={{gridColumn:" 1 / span 2"}}>Transfer</Button>
+          </div>
+        </MyModal>
+
         <div>
           {assets.length === 0 ? (
             <Empty
@@ -71,7 +122,15 @@ const AllAsset = (props) => {
           ) : (
             <div className="container">
               {assets.map((asset, idx) => {
-                return <Asset key={idx} idx={idx} data={asset} />;
+                return (
+                  <Asset
+                    key={idx}
+                    idx={idx}
+                    data={asset}
+                    setModalVisibility={setModalVisibility}
+                    setAssetID={setAssetID}
+                  />
+                );
               })}
             </div>
           )}

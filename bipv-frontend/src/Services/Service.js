@@ -34,6 +34,11 @@ export const getUser = ({username,password}) => {
   return axios.get('/users?username='+username+'&password='+password)
 }
 
+// json-server
+export const getAllUsers = () => {
+  return axios.get('/users')
+}
+
 
 
 

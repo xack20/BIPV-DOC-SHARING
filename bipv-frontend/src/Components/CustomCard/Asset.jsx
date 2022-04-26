@@ -7,6 +7,7 @@ import {
   FilePdfTwoTone,
 } from "@ant-design/icons";
 import { useEffect } from 'react';
+import PopConfirm from '../PopConfirm/PopConfirm.jsx';
 
 const { Meta } = Card;
 
@@ -19,6 +20,12 @@ const Asset = (props) => {
   useEffect(() => {
     setUserName(JSON.parse(localStorage.getItem("user")).username);
   }, [])
+
+
+  const assetTransfer = () => {
+    props.setModalVisibility(true)
+    props.setAssetID(props.idx)
+  }
 
   return (
     <Card
@@ -37,9 +44,15 @@ const Asset = (props) => {
       }
       actions={
         props.data.receivedBy === userName && [
-          <InteractionOutlined key="transfer" style={{ fontSize: "150%" }} />,
+          <InteractionOutlined
+            key="transfer"
+            style={{ fontSize: "150%" }}
+            onClick={assetTransfer}
+          />,
           <EditOutlined key="update" style={{ fontSize: "150%" }} />,
-          <DeleteOutlined key="delete" style={{ fontSize: "150%" }} />,
+          <PopConfirm title="Confirm Delete?">
+            <DeleteOutlined key="delete" style={{ fontSize: "150%" }} />
+          </PopConfirm>,
         ]
       }
     >
