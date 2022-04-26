@@ -1,16 +1,5 @@
 {
   "users": [
-    {
-      "username": "xack1234",
-      "password": "xack1234",
-      "organization": "org1",
-      "id": 1
-    },
-    {
-      "username": "tush1234",
-      "password": "tush1234",
-      "organization": "org2",
-      "id": 2
-    }
+    
   ]
 }
