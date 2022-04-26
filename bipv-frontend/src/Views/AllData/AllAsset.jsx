@@ -16,6 +16,7 @@ import {
 
 import MyModal from "../../Components/MyModal/MyModal.jsx";
 import CustomSelect from "../../Components/CustomSelect/CustomSelect";
+import CustomForm from "../CustomForm/CustomForm";
 
 const AllAsset = (props) => {
 
@@ -28,14 +29,17 @@ const AllAsset = (props) => {
       org: JSON.parse(localStorage.getItem("user")).organization,
       opt: "create",
     });
+
     const [modalVisibility, setModalVisibility] = useState(false);
+    const [modVisibility, setModVisibility] = useState(false);
 
     const [newUser,setNewUser] = useState("");
 
     // const [users,setUsers] = useState([]);
 
     const addAsset = () => {
-        setAssets([...assets, 0]);
+        setModVisibility(true);
+        // setAssets([...assets, 0]);
     };
 
 
@@ -116,6 +120,17 @@ const AllAsset = (props) => {
             >
               Transfer
             </Button>
+          </div>
+        </MyModal>
+
+        <MyModal
+          Width={900}
+          Title={"Asset Create"}
+          modalVisibility={modVisibility}
+          setModalVisibility={setModVisibility}
+        >
+          <div className="addAsset">
+            <CustomForm></CustomForm>
           </div>
         </MyModal>
 

@@ -12,7 +12,6 @@ import {
   Spin,
   notification,
 } from "antd";
-import { Tab } from "@material-ui/core";
 
 import {
   addNewAsset,
