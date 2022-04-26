@@ -11,6 +11,7 @@ import {
   getAllAssets,
   updateAsset,
   getAllUsers,
+  transferAsset,
 } from "../../Services/Service";
 
 import MyModal from "../../Components/MyModal/MyModal.jsx";
@@ -67,7 +68,7 @@ const AllAsset = (props) => {
     const [assetID, setAssetID] = useState(0);
 
 
-    const transferAsset = async (asset) => {
+    const assetTransfer = async (asset) => {
       console.log(assetID);
 
         setLoading(true);
@@ -108,8 +109,13 @@ const AllAsset = (props) => {
         >
           <div className="transfer">
             <p>Select an user to transfer this asset : </p>
-            <CustomSelect setNewUser={setNewUser} userName ={state.user}/>
-            <Button style={{gridColumn:" 1 / span 2"}}>Transfer</Button>
+            <CustomSelect setNewUser={setNewUser} userName={state.user} />
+            <Button
+              onClick={assetTransfer}
+              style={{ gridColumn: " 1 / span 2" }}
+            >
+              Transfer
+            </Button>
           </div>
         </MyModal>
 
