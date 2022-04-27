@@ -3,16 +3,18 @@ import { Button, Popconfirm } from "antd";
 
 const PopConfirm = (props) => {
 
-    const confirm = () =>
+    const confirm = () => {
       new Promise((resolve) => {
-        setTimeout(() => resolve(), 1000);
+        props.onConfirm();
+        resolve();
       });
+    }
 
     return (
       <Popconfirm
         title={props.title}
         onConfirm={confirm}
-        onVisibleChange={() => console.log("visible change")}
+        // onVisibleChange={() => console.log("visible change")}
       >
         {props.children}
       </Popconfirm>

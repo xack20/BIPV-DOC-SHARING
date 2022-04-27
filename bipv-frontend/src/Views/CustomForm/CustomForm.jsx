@@ -13,139 +13,67 @@ import {
   notification,
 } from "antd";
 
-import {
-  addNewAsset,
-  deleteAsset,
-  getAllAssets,
-  updateAsset,
-} from "../../Services/Service";
+import { addNewAsset } from "../../Services/Service";
 
 import "./CustomForm.css";
 
-const { Header, Content, Footer } = Layout;
-const { Option } = Select;
-
 const CustomForm = (props) => {
+  const [form] = Form.useForm();
+  const formFields = [
+    "documentLink",
+    "documentType",
+    "projectStage",
+    "documentSize",
+    "mainContent",
+  ];
 
-    const formRef = React.createRef();
-//   const onFinish = async (values) => {
-//     console.log(state["opt"]);
+  const onFinish = async (values) => {
+    props.setLoading(true);
+    try {
+      //   console.log(state["user"]);
+      values["userName"] = props.user;
+      values["org"] = props.org;
+      const data = await addNewAsset(values);
 
-//     if (state["opt"] === "create") {
-//       setLoading(true);
-//       try {
-//         console.log(state["user"]);
-//         values["userName"] = state["user"];
-//         const data = await addNewAsset(values);
+      props.setAssets([...props.assets, data.data.additionalPayload]);
 
-//         if (typeof data.data.additionalPayload === "string") {
-//           notification.error({
-//             message: "Error",
-//             description: data.data.additionalPayload,
-//             placement: "bottomRight",
-//           });
-//           setLoading(false);
-//         } else {
-//           setAssets((ASSET) => data.data.additionalPayload);
-//           formRef.current.resetFields();
-//           setLoading(false);
+      if (typeof data.data.additionalPayload === "string") {
+        notification.error({
+          message: "Error",
+          description: data.data.additionalPayload,
+          placement: "bottomRight",
+        });
+        props.setLoading(false);
+      } else {
+        notification.success({
+          message: "Success",
+          description: "Successfully added asset",
+          placement: "bottomRight",
+        });
 
-//           notification.success({
-//             message: "Success",
-//             description: "Successfully added asset",
-//             placement: "bottomRight",
-//           });
-//         }
-//       } catch (error) {
-//         notification.error({
-//           message: "Error",
-//           description: error.message,
-//           placement: "bottomRight",
-//         });
-//       }
-//     } else if (state["opt"] === "update") {
-//       setLoading(true);
-//       try {
-//         console.log(state["user"]);
-//         values["userName"] = state["user"];
-//         const data = await updateAsset(values);
+        form.resetFields();
+        props.setLoading(false);
+        props.setModVisibility(false);
+        // window.location.reload();
+      }
+    } catch (error) {
+      props.setLoading(false);
+      props.setModVisibility(false);
+      notification.error({
+        message: "Error",
+        description: error.message,
+        placement: "bottomRight",
+      });
+    }
+  };
 
-//         if (typeof data.data.additionalPayload === "string") {
-//           notification.error({
-//             message: "Error",
-//             description: data.data.additionalPayload,
-//             placement: "bottomRight",
-//           });
-//           setLoading(false);
-//         } else {
-//           setAssets((ASSET) => data.data.additionalPayload);
-//           formRef.current.resetFields();
-//           setLoading(false);
-
-//           notification.success({
-//             message: "Success",
-//             description: "Asset Update Successful",
-//             placement: "bottomRight",
-//           });
-//         }
-//       } catch (error) {
-//         notification.error({
-//           message: "Error",
-//           description: error.message,
-//           placement: "bottomRight",
-//         });
-//       }
-//     } else if (state["opt"] === "delete") {
-//       setLoading(true);
-//       try {
-//         console.log(state["user"]);
-//         values["userName"] = state["user"];
-//         const data = await deleteAsset(values);
-
-//         if (typeof data.data.additionalPayload === "string") {
-//           notification.error({
-//             message: "Error",
-//             description: data.data.additionalPayload,
-//             placement: "bottomRight",
-//           });
-//           setLoading(false);
-//         } else {
-//           setAssets((ASSET) => data.data.additionalPayload);
-//           formRef.current.resetFields();
-//           setLoading(false);
-
-//           notification.success({
-//             message: "Success",
-//             description: "Asset Successfully Deleted!",
-//             placement: "bottomRight",
-//           });
-//         }
-//       } catch (error) {
-//         notification.error({
-//           message: "Error",
-//           description: error.message,
-//           placement: "bottomRight",
-//         });
-//       }
-//     }
-//   };
-
-//   const onFinishFailed = (errorInfo) => {
-//     console.log("Failed:", errorInfo);
-//   };
-const formFields = [
-  "documentLink",
-  "documentType",
-  "dateReceived",
-  "projectStage",
-  "documentSize",
-  "sentBy",
-  "receivedBy",
-  "mainContent",
-];
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{
         span: 8,
@@ -156,10 +84,12 @@ const formFields = [
       initialValues={{
         remember: true,
       }}
-      onFinish={props.onFinish}
-      onFinishFailed={props.onFinishFailed}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
       autoComplete="off"
-      ref={formRef}
+      style={{
+        marginLeft: "25%",
+      }}
     >
       <Form.Item
         name="documentNo"

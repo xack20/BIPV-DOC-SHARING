@@ -77,7 +77,12 @@ const AllAsset = (props) => {
 
         setLoading(true);
       try {
-        await transferAsset({...assets[assetID], newOwner : newUser, userName : state.user});
+        const {data} = await transferAsset({...assets[assetID], newOwner : newUser, userName : state.user, org : state.org});
+        
+        setAssets([
+          ...assets.filter((asset) => asset.documentNo != assets[assetID].documentNo),
+          data.additionalPayload,
+        ]);
         
         notification.success({
           message: "Success",
@@ -95,7 +100,7 @@ const AllAsset = (props) => {
       }
         setLoading(false); 
 
-        window.location.reload();
+        // window.location.reload();
     };
 
     return (
@@ -103,7 +108,7 @@ const AllAsset = (props) => {
         spinning={loading}
         size="large"
         tip="loading..."
-        style={{ marginTop: "10%" }}
+        style={{ marginTop: "10%" , zIndex: "9999"}}
       >
         <MyModal
           Width={900}
@@ -124,13 +129,13 @@ const AllAsset = (props) => {
         </MyModal>
 
         <MyModal
-          Width={900}
+          Width={700}
           Title={"Asset Create"}
           modalVisibility={modVisibility}
           setModalVisibility={setModVisibility}
         >
           <div className="addAsset">
-            <CustomForm></CustomForm>
+            <CustomForm params={"Insert"} setLoading={setLoading} setModVisibility={setModVisibility} user={state.user} org={state.org} setAssets={setAssets} assets={assets} ></CustomForm>
           </div>
         </MyModal>
 
@@ -148,7 +153,9 @@ const AllAsset = (props) => {
                     key={idx}
                     idx={idx}
                     data={asset}
+                    setLoading={setLoading}
                     setModalVisibility={setModalVisibility}
+                    setAssets={setAssets}
                     setAssetID={setAssetID}
                   />
                 );

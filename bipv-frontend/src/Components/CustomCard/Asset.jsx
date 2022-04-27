@@ -1,31 +1,56 @@
-import React, {useState} from 'react'
-import { Card, Avatar} from "antd";
+import React, { useState } from "react";
+import { Card, Avatar,notification } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
   InteractionOutlined,
   FilePdfTwoTone,
 } from "@ant-design/icons";
-import { useEffect } from 'react';
-import PopConfirm from '../PopConfirm/PopConfirm.jsx';
+import { useEffect } from "react";
+import PopConfirm from "../PopConfirm/PopConfirm.jsx";
+import { deleteAsset } from "../../Services/Service.js";
 
 const { Meta } = Card;
 
-
-
 const Asset = (props) => {
-
-  const [userName , setUserName] = useState("");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     setUserName(JSON.parse(localStorage.getItem("user")).username);
-  }, [])
-
+  }, []);
 
   const assetTransfer = () => {
-    props.setModalVisibility(true)
-    props.setAssetID(props.idx)
-  }
+    props.setModalVisibility(true);
+    props.setAssetID(props.idx);
+  };
+
+  const assetDelete = async () => {
+    try {
+      props.setLoading(true);
+      const data = await deleteAsset({
+        userName,
+        documentNo: props.data.documentNo,
+        org: JSON.parse(localStorage.getItem("user")).organization,
+      });
+      props.setAssets(data.data.additionalPayload);
+      notification.success({
+        message: "Success",
+        description: "Successfully deleted asset",
+        placement: "bottomRight",
+      });
+      props.setLoading(false);
+      // window.location.reload();
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Failed to delete asset",
+        placement: "bottomRight",
+      });
+      props.setLoading(false);
+    }
+
+    
+  };
 
   return (
     <Card
@@ -49,9 +74,13 @@ const Asset = (props) => {
             style={{ fontSize: "150%" }}
             onClick={assetTransfer}
           />,
-          <EditOutlined key="update" style={{ fontSize: "150%" }} />,
-          <PopConfirm title="Confirm Delete?">
-            <DeleteOutlined key="delete" style={{ fontSize: "150%" }} />
+          // <EditOutlined key="update" style={{ fontSize: "150%" }} />,
+          <PopConfirm title="Confirm Delete?" onConfirm={assetDelete}>
+            <DeleteOutlined
+              key="delete"
+              // onClick={assetDelete}
+              style={{ fontSize: "150%" }}
+            />
           </PopConfirm>,
         ]
       }
@@ -66,7 +95,7 @@ const Asset = (props) => {
         description={props.data.mainContent}
       />
     </Card>
-  );  
+  );
 };
 
 export default Asset;
