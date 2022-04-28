@@ -4,7 +4,9 @@
 
 change directory
 
-``` cd bipv-network/test-network ```
+``` 
+    cd bipv-network/test-network 
+```
 
 * Down Network
   ``` 
