@@ -10,5 +10,4 @@ public class BipvBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BipvBackendApplication.class, args);
 	}
-
 }

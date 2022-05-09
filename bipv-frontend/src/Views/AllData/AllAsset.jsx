@@ -6,11 +6,11 @@ import './AllAsset.css';
 import { PlusCircleTwoTone } from "@ant-design/icons";
 
 import {
-  addNewAsset,
-  deleteAsset,
+  // addNewAsset,
+  // deleteAsset,
   getAllAssets,
-  updateAsset,
-  getAllUsers,
+  // updateAsset,
+  // getAllUsers,
   transferAsset,
 } from "../../Services/Service";
 
@@ -22,7 +22,7 @@ const AllAsset = (props) => {
 
     const [assets, setAssets] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [state, setState] = useState({
+    const [state] = useState({
       user: JSON.parse(localStorage.getItem("user")).username ,
       channel: "channel1",
       peer: "peer0",
@@ -67,7 +67,7 @@ const AllAsset = (props) => {
         }
       };
       getData();
-    }, [state.user]);
+    }, [state]);
 
     const [assetID, setAssetID] = useState(0);
 
@@ -80,7 +80,7 @@ const AllAsset = (props) => {
         const {data} = await transferAsset({...assets[assetID], newOwner : newUser, userName : state.user, org : state.org});
         
         setAssets([
-          ...assets.filter((asset) => asset.documentNo != assets[assetID].documentNo),
+          ...assets.filter((asset) => asset.documentNo !== assets[assetID].documentNo),
           data.additionalPayload,
         ]);
         
@@ -127,7 +127,6 @@ const AllAsset = (props) => {
             </Button>
           </div>
         </MyModal>
-
         <MyModal
           Width={700}
           Title={"Asset Create"}

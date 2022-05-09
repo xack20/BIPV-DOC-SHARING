@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Avatar,notification } from "antd";
 import {
-  EditOutlined,
+  // EditOutlined,
   DeleteOutlined,
   InteractionOutlined,
   FilePdfTwoTone,
@@ -54,6 +54,7 @@ const Asset = (props) => {
 
   return (
     <Card
+      hoverable
       style={{
         width: 300,
         maxHeight: 235,
