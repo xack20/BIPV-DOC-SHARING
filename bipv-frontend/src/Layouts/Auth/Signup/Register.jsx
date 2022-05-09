@@ -1,25 +1,24 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom'
 
 import {
-  Layout,
-  Menu,
-  Breadcrumb,
-  Space,
+  // Layout,
+  // Menu,
+  // Breadcrumb,
+  // Space,
   Form,
   Input,
   Button,
-  Empty,
+  // Empty,
   Select,
-  Spin,
+  // Spin,
   notification,
 } from "antd";
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
-import { addUser, registerUser } from "../../../Services/Service";
+import { addUser } from "../../../Services/Service";
 
 import "./Register.css";
 
@@ -107,15 +106,15 @@ const Register = (props) => {
             placeholder="Select Org"
           >
             <Option value="org1">
-              Taizhou Haineng New Energy Group Co., Ltd.
+              Taizhou Ltd.
             </Option>
-            <Option value="org2">Fanzai</Option>
+            <Option value="org2">Fanzai Ltd</Option>
           </Select>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
+        <Link className="login-form-forgot" to="#">
           Forgot password
-        </a>
+        </Link>
       </Form.Item>
 
       <Form.Item>
