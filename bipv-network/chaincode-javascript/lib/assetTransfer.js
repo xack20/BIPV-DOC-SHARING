@@ -158,6 +158,36 @@ class AssetTransfer extends Contract {
         return assetJSON && assetJSON.length > 0;
     }
 
+
+    async GetHistoryForAsset(ctx, documentNo) {
+        const exists = await this.AssetExists(ctx, documentNo);
+        if (!exists) {
+            throw new Error(`The asset ${documentNo} does not exist`);
+        }
+        const resultsIterator = await ctx.stub.getHistoryForKey(documentNo);
+        const results = [];
+        while (true) {
+            const res = await resultsIterator.next();
+            if (res.value && res.value.value.toString()) {
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    Record = res.value.value.toString('utf8');
+                }
+                results.push({ Key, Record });
+            }
+            if (res.done) {
+                console.log('end of data');
+                await resultsIterator.close();
+                console.info(results);
+                return JSON.stringify(results);
+            }
+        }
+    }
+
     // TransferAsset updates the owner field of asset with given id in the world state.
     async TransferAsset(ctx, documentNo, newOwner) {
 
