@@ -50,8 +50,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			byte[] result = contract.submitTransaction("InitLedger");
 
@@ -89,8 +89,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			byte[] result;
 
@@ -157,8 +157,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			// call the chaincode function
 			try {
@@ -206,8 +206,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			// call the chaincode function
 			contract.submitTransaction("UpdateAsset", 
@@ -252,8 +252,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			byte[] result = contract.evaluateTransaction("ReadAsset", payload.get("documentNo"));
 
@@ -312,8 +312,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			contract.submitTransaction("DeleteAsset", payload.get("documentNo"));
 
@@ -349,8 +349,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			byte[] result = contract.evaluateTransaction("GetID");
 
@@ -379,8 +379,8 @@ public class ClientApp {
 		try (Gateway gateway = builder.connect()) {
 
 			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("basic");
+			Network network = gateway.getNetwork(payload.get("channel"));
+			Contract contract = network.getContract(payload.get("chaincode"));
 
 			contract.submitTransaction("TransferAsset", payload.get("documentNo"), payload.get("newOwner"));
 
