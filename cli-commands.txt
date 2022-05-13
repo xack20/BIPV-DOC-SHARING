@@ -1,0 +1,6 @@
+docker start $(docker ps -aq)                                       # for network
+
+
+
+mvn clean install                                                   # for backend
+java -jar ./target/bipv-backend-0.0.1-SNAPSHOT.jar                  # for backend
