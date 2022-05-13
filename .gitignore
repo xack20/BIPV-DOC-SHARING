@@ -79,3 +79,12 @@ typings/
 .git
 .vscode
 
+# network filter
+
+wallet/
+log.txt
+basic-channel1.tar.gz
+basic-channel2.tar.gz
+channel-artifacts/
+
+organizations/
