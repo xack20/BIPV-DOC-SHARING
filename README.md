@@ -13,8 +13,7 @@
   ```
 * Network Up and install chaincode
   ``` 
-      ./network.sh up createChannel -ca
-      ./network.sh deployCC -ccn basic -ccp ../chaincode-javascript -ccl javascript
+      ./run-net.sh
   ```
 
 ## Run the java backend from the top menu bar 
