@@ -114,16 +114,16 @@ const MainLayout = (props) => {
                 <Card title="Organization Name" bordered={false}>
                   {state.org === "org1" &&
                     state.channel === "channel1" &&
-                    "Taizhou Ltd."}
+                    "Taizhou Haineng New Energy Group Co. Ltd."}
                   {state.org === "org2" &&
                     state.channel === "channel1" &&
-                    "Fanzai Ltd."}
+                    "Haichi Construction Co. Ltd."}
                   {state.org === "org1" &&
                     state.channel === "channel2" &&
-                    "Jomuna Group"}
+                    "Sunshine board supplier"}
                   {state.org === "org2" &&
                     state.channel === "channel2" &&
-                    "Akij Biri Company"}
+                    "Glulam Construction Auxiliary Material Supplier"}
                 </Card>
               </Col>
             </Row>
