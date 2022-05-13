@@ -10,7 +10,7 @@ const AllAssetTable = (props) => {
     const [loading, setLoading] = useState(false);
     const [assets, setAssets] = useState([]);
 
-    const [state, setState] = useState({
+    const [state] = useState({
       user: JSON.parse(localStorage.getItem("user")).username,
       peer: "peer0",
       org: JSON.parse(localStorage.getItem("user")).organization,
