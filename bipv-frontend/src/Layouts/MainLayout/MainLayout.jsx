@@ -51,9 +51,9 @@ const MainLayout = (props) => {
 
   const [state] = useState({
     user: JSON.parse(localStorage.getItem("user")).username,
-    channel: "channel1",
     peer: "peer0",
     org: JSON.parse(localStorage.getItem("user")).organization,
+    channel: JSON.parse(localStorage.getItem("user")).channel,
   });
 
   const userInfo = () =>{
@@ -112,7 +112,10 @@ const MainLayout = (props) => {
               </Col>
               <Col span={8}>
                 <Card title="Organization Name" bordered={false}>
-                  {state.org === "org1" ? "Taizhou Ltd." : "Fanzai Ltd"}
+                  {state.org === "org1" && "Taizhou Ltd."}
+                  {state.org === "org2" && "Fanzai Ltd."}
+                  {state.org === "org3" && "Jomuna Group"}
+                  {state.org === "org4" && "Akij Biri Company"}
                 </Card>
               </Col>
             </Row>

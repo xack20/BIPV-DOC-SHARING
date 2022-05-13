@@ -33,6 +33,9 @@ const CustomForm = (props) => {
       //   console.log(state["user"]);
       values["userName"] = props.user;
       values["org"] = props.org;
+      values["channel"] = props.user_state.channel;
+      values["chaincode"] = props.user_state.chaincode;
+      
       const data = await addNewAsset(values);
 
       props.setAssets([...props.assets, data.data.additionalPayload]);

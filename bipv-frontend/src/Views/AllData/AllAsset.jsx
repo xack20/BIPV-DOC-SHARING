@@ -23,11 +23,12 @@ const AllAsset = (props) => {
     const [assets, setAssets] = useState([]);
     const [loading, setLoading] = useState(false);
     const [state] = useState({
-      user: JSON.parse(localStorage.getItem("user")).username ,
-      channel: "channel1",
+      user: JSON.parse(localStorage.getItem("user")).username,
       peer: "peer0",
       org: JSON.parse(localStorage.getItem("user")).organization,
       opt: "create",
+      channel: JSON.parse(localStorage.getItem("user")).channel,
+      chaincode: "basic-" + JSON.parse(localStorage.getItem("user")).channel,
     });
 
     const [modalVisibility, setModalVisibility] = useState(false);
@@ -77,7 +78,7 @@ const AllAsset = (props) => {
 
         setLoading(true);
       try {
-        const {data} = await transferAsset({...assets[assetID], newOwner : newUser, userName : state.user, org : state.org});
+        const {data} = await transferAsset({...assets[assetID], newOwner : newUser, userName : state.user, org : state.org, ...state});
         
         setAssets([
           ...assets.filter((asset) => asset.documentNo !== assets[assetID].documentNo),
@@ -134,7 +135,7 @@ const AllAsset = (props) => {
           setModalVisibility={setModVisibility}
         >
           <div className="addAsset">
-            <CustomForm params={"Insert"} setLoading={setLoading} setModVisibility={setModVisibility} user={state.user} org={state.org} setAssets={setAssets} assets={assets} ></CustomForm>
+            <CustomForm params={"Insert"} setLoading={setLoading} setModVisibility={setModVisibility} user={state.user} org={state.org} user_state={state} setAssets={setAssets} assets={assets} ></CustomForm>
           </div>
         </MyModal>
 

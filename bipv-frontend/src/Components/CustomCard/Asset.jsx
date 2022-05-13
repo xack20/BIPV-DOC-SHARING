@@ -31,6 +31,8 @@ const Asset = (props) => {
         userName,
         documentNo: props.data.documentNo,
         org: JSON.parse(localStorage.getItem("user")).organization,
+        channel: JSON.parse(localStorage.getItem("user")).channel,
+        chaincode: "basic-" + JSON.parse(localStorage.getItem("user")).channel,
       });
       props.setAssets(data.data.additionalPayload);
       notification.success({

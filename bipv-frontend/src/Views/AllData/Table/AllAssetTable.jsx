@@ -12,9 +12,10 @@ const AllAssetTable = (props) => {
 
     const [state, setState] = useState({
       user: JSON.parse(localStorage.getItem("user")).username,
-      channel: "channel1",
       peer: "peer0",
-      org: JSON.parse(localStorage.getItem("user")).organization
+      org: JSON.parse(localStorage.getItem("user")).organization,
+      channel: JSON.parse(localStorage.getItem("user")).channel,
+      chaincode : "basic-"+JSON.parse(localStorage.getItem("user")).channel,
     });
 
 

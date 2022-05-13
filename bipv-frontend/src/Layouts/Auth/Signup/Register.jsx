@@ -31,9 +31,18 @@ const Register = (props) => {
     const onFinish = async(values) => {
       console.log("Received values of form: ", values);
 
-      const { username, password, organization } = values;
+      const { username, password } = values;
+      const organization =
+        values.organization !== "org3" && values.organization !== "org4"
+          ? values.organization
+          : ((values.organization === "org4") ? "org2" : "org1");
 
-      const res = await addUser({ username, password, organization });
+      const channel =
+        values.organization !== "org3" && values.organization !== "org4"
+          ? "channel1"
+          : "channel2" ;
+
+      const res = await addUser({ username, password, organization, channel });
 
       if (res.status === 201) {
         notification.success({
@@ -105,10 +114,10 @@ const Register = (props) => {
             style={{ width: "100%" }}
             placeholder="Select Org"
           >
-            <Option value="org1">
-              Taizhou Ltd.
-            </Option>
+            <Option value="org1">Taizhou Ltd.</Option>
             <Option value="org2">Fanzai Ltd</Option>
+            <Option value="org3">Jomuna Group</Option>
+            <Option value="org4">Akij Biri Company</Option>
           </Select>
         </Form.Item>
 
