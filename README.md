@@ -1,4 +1,22 @@
-# BIPV-DOC-SHARING
+# BIPV-DOC-SHARING 
+
+
+
+### Prerequisites (Tested with Linux-Ubuntu)
+    1. java
+    2. golang
+    3. docker
+    4. curl
+    5. git
+    6. node
+    7. jq
+
+``` #### other OS may required extra dependencies  ```
+
+
+
+-------------------------------------------------------------------------------
+
 
 ## Open a terminal fron VSCode for managing network
 
