@@ -7,10 +7,6 @@
       cd bipv-network/test-network 
   ```
 
-* Down Network
-  ``` 
-      ./network.sh down
-  ```
 * Network Up and install chaincode
   ``` 
       ./run-net.sh
