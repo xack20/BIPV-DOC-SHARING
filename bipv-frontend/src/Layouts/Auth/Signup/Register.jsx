@@ -114,10 +114,10 @@ const Register = (props) => {
             style={{ width: "100%" }}
             placeholder="Select Org"
           >
-            <Option value="org1">Taizhou Ltd.</Option>
-            <Option value="org2">Fanzai Ltd</Option>
-            <Option value="org3">Jomuna Group</Option>
-            <Option value="org4">Akij Biri Company</Option>
+            <Option value="org1">Taizhou Ltd.(Channel 1)</Option>
+            <Option value="org2">Fanzai Ltd(Channel 1)</Option>
+            <Option value="org3">Jomuna Group(Channel 2)</Option>
+            <Option value="org4">Akij Biri Company(Channel 2)</Option>
           </Select>
         </Form.Item>
 

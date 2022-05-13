@@ -112,10 +112,18 @@ const MainLayout = (props) => {
               </Col>
               <Col span={8}>
                 <Card title="Organization Name" bordered={false}>
-                  {state.org === "org1" && "Taizhou Ltd."}
-                  {state.org === "org2" && "Fanzai Ltd."}
-                  {state.org === "org3" && "Jomuna Group"}
-                  {state.org === "org4" && "Akij Biri Company"}
+                  {state.org === "org1" &&
+                    state.channel === "channel1" &&
+                    "Taizhou Ltd."}
+                  {state.org === "org2" &&
+                    state.channel === "channel1" &&
+                    "Fanzai Ltd."}
+                  {state.org === "org1" &&
+                    state.channel === "channel2" &&
+                    "Jomuna Group"}
+                  {state.org === "org2" &&
+                    state.channel === "channel2" &&
+                    "Akij Biri Company"}
                 </Card>
               </Col>
             </Row>

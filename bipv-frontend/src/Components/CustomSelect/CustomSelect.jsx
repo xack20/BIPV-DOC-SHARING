@@ -53,7 +53,7 @@ const CustomSelect = (props) => {
       >
         {users.map(
           (user) =>
-            user.username !== props.userName && (
+            (user.username !== props.userName && user.channel === props.channel) && (
               <>
                 <Option key={user.username} value={user.username}>
                   {user.username}   

@@ -119,7 +119,7 @@ const AllAsset = (props) => {
         >
           <div className="transfer">
             <p>Select an user to transfer this asset : </p>
-            <CustomSelect setNewUser={setNewUser} userName={state.user} />
+            <CustomSelect setNewUser={setNewUser} userName={state.user} channel={state.channel} />
             <Button
               onClick={assetTransfer}
               style={{ gridColumn: " 1 / span 2" }}
