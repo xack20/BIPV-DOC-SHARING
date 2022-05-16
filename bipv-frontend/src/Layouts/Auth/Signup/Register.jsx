@@ -120,7 +120,7 @@ const Register = (props) => {
             <Option value="org2">
               Haichi Construction Co. Ltd.(Channel 1)
             </Option>
-            <Option value="org3">Sunshine board supplier(Channel 2)</Option>
+            <Options value="org3"> Haichi Construction Co. Ltd.(Channel 2)</Option>
             <Option value="org4">
               Glulam Construction Auxiliary Material Supplier(Channel 2)
             </Option>
