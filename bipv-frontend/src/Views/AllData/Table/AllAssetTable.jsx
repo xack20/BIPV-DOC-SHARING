@@ -45,15 +45,16 @@ const AllAssetTable = (props) => {
     }, [state]);
   
     const columnsArray = [
-    "documentNo",
-    "dateReceived",
-    "projectStage",
-    "documentType",
-    "documentSize",
-    "sentBy",
-    "receivedBy",
-    "mainContent",
-  ];
+      "documentNo",
+      "dateReceived",
+      "projectStage",
+      "documentType",
+      "documentSize",
+      "sentBy",
+      "receivedBy",
+      "mainContent",
+      "documentLink",
+    ];
 
   const columns = columnsArray.map((column, index) => {
     return {
