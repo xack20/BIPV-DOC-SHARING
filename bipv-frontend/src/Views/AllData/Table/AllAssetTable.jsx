@@ -46,14 +46,15 @@ const AllAssetTable = (props) => {
   
     const columnsArray = [
       "documentNo",
-      "dateReceived",
+      "mainContent",
+      "documentLink",
       "projectStage",
       "documentType",
       "documentSize",
       "sentBy",
       "receivedBy",
-      "mainContent",
-      "documentLink",
+      "dateReceived",
+      "lastModification",
     ];
 
   const columns = columnsArray.map((column, index) => {
@@ -65,7 +66,17 @@ const AllAssetTable = (props) => {
         </h3>
       ),
       dataIndex: column,
-      key: column,
+      key: index,
+      render : (text, record) => {
+        if(column === "documentLink"){
+          return (
+            <a href={"https://" + text} target="_blank" rel="noopener">
+              {text}
+            </a>
+          );
+        }
+        else return text;
+      }
     };
   });
 

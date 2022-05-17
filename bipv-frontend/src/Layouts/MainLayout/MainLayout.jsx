@@ -117,13 +117,13 @@ const MainLayout = (props) => {
                     "Taizhou Haineng New Energy Group Co. Ltd."}
                   {state.org === "org2" &&
                     state.channel === "channel1" &&
-                    "Haichi Construction Co. Ltd."}
-                  {state.org === "org1" &&
-                    state.channel === "channel2" &&
-                    "Sunshine board supplier"}
+                    "Fanzai (Design consultant)"}
                   {state.org === "org2" &&
                     state.channel === "channel2" &&
-                    "Glulam Construction Auxiliary Material Supplier"}
+                    "Fanzai (Design consultant)"}
+                  {state.org === "org1" &&
+                    state.channel === "channel2" &&
+                    "Jiangsu Haichi Construction Co., Ltd."}
                 </Card>
               </Col>
             </Row>
