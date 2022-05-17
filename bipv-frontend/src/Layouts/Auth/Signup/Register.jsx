@@ -117,12 +117,10 @@ const Register = (props) => {
             <Option value="org1">
               Taizhou Haineng New Energy Group Co. Ltd.(Channel 1)
             </Option>
-            <Option value="org2">
-              Haichi Construction Co. Ltd.(Channel 1)
-            </Option>
-            <Option value="org3"> Haichi Construction Co. Ltd.(Channel 2)</Option>
+            <Option value="org2">Fanzai (Design consultant)(Channel 1)</Option>
+            <Option value="org3"> Fanzai (Design consultant)(Channel 2)</Option>
             <Option value="org4">
-              Glulam Construction Auxiliary Material Supplier(Channel 2)
+              Jiangsu Haichi Construction Co., Ltd. (Contractor)(Channel 2)
             </Option>
           </Select>
         </Form.Item>
