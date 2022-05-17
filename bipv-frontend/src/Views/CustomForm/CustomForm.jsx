@@ -102,7 +102,7 @@ const CustomForm = (props) => {
           },
         ]}
       >
-        <Input placeholder="Document Number" />
+        {props.editable && <Input placeholder="Document Number" /> }
       </Form.Item>
 
       {props.params !== "Delete" &&
@@ -117,15 +117,42 @@ const CustomForm = (props) => {
                 },
               ]}
             >
-              <Input placeholder={item} />
+              {(props.oprtn === 1 || props.editable) ? (
+                <Input placeholder={item} />
+              ) : (
+                <div style={{ display: "flex" }}>
+                  <h3 style={{ marginRight: "10px", fontWeight: "bold" }}>
+                    {item.charAt(0).toUpperCase() +
+                      item.replace(/([A-Z])/g, " $1").slice(1) +
+                      ":   "}
+                  </h3>
+                  {item === "documentLink" ? (
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={"https://" + props.assets[props.assetID][item]}
+                    >
+                      {props.assets[props.assetID][item]}
+                    </a>
+                  ) : (
+                    props.assets[props.assetID][item]
+                  )}
+                </div>
+              )}
             </Form.Item>
           );
         })}
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          {props.params}
-        </Button>
+        {(props.oprtn === 1 || props.editable) && (
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            {props.params}
+          </Button>
+        )}
       </Form.Item>
     </Form>
   );

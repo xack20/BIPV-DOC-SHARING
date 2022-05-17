@@ -70,7 +70,7 @@ const AllAssetTable = (props) => {
       render : (text, record) => {
         if(column === "documentLink"){
           return (
-            <a href={"https://" + text} target="_blank" rel="noopener">
+            <a href={"https://" + text} target="_blank" rel="noreferrer">
               {text}
             </a>
           );

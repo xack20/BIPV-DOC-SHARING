@@ -21,10 +21,13 @@ const Asset = (props) => {
 
   const assetTransfer = () => {
     props.setModalVisibility(true);
+     props.setModVisibility(false);
     props.setAssetID(props.idx);
   };
 
   const assetDelete = async () => {
+
+     props.setModVisibility(false);
     try {
       props.setLoading(true);
       const data = await deleteAsset({
@@ -78,7 +81,13 @@ const Asset = (props) => {
             onClick={assetTransfer}
           />,
           // <EditOutlined key="update" style={{ fontSize: "150%" }} />,
-          <PopConfirm title="Confirm Delete?" onConfirm={assetDelete}>
+          <PopConfirm
+            title="Confirm Delete?"
+            onConfirm={() => {
+              props.setModVisibility(false);
+              assetDelete();
+            }}
+          >
             <DeleteOutlined
               key="delete"
               // onClick={assetDelete}
@@ -96,6 +105,9 @@ const Asset = (props) => {
         }
         title={props.data.receivedBy}
         description={props.data.mainContent}
+        onClick={() => {
+          props.viewAsset(props.idx);
+        }}
       />
     </Card>
   );

@@ -39,10 +39,16 @@ const AllAsset = (props) => {
     // const [users,setUsers] = useState([]);
 
     const addAsset = () => {
+        setOprtn(1);
         setModVisibility(true);
         // setAssets([...assets, 0]);
     };
 
+    const viewAsset = (idx) => {
+        setOprtn(2);
+        setModVisibility(true);
+        setAssetID(idx);
+    }
 
 
     useEffect(() => {
@@ -71,6 +77,7 @@ const AllAsset = (props) => {
     }, [state]);
 
     const [assetID, setAssetID] = useState(0);
+    const [oprtn, setOprtn] = useState();
 
 
     const assetTransfer = async (asset) => {
@@ -104,12 +111,14 @@ const AllAsset = (props) => {
         // window.location.reload();
     };
 
+    const [editable, setEditable] = useState(false);
+
     return (
       <Spin
         spinning={loading}
         size="large"
         tip="loading..."
-        style={{ marginTop: "10%" , zIndex: "9999"}}
+        style={{ marginTop: "10%", zIndex: "9999" }}
       >
         <MyModal
           Width={900}
@@ -119,7 +128,11 @@ const AllAsset = (props) => {
         >
           <div className="transfer">
             <p>Select an user to transfer this asset : </p>
-            <CustomSelect setNewUser={setNewUser} userName={state.user} channel={state.channel} />
+            <CustomSelect
+              setNewUser={setNewUser}
+              userName={state.user}
+              channel={state.channel}
+            />
             <Button
               onClick={assetTransfer}
               style={{ gridColumn: " 1 / span 2" }}
@@ -130,12 +143,30 @@ const AllAsset = (props) => {
         </MyModal>
         <MyModal
           Width={700}
-          Title={"Asset Create"}
+          Title={
+            oprtn === 1
+              ? "Asset Create"
+              : `Document No :${assets.length && assets[assetID].documentNo}`
+          }
           modalVisibility={modVisibility}
           setModalVisibility={setModVisibility}
+          setEditable
         >
           <div className="addAsset">
-            <CustomForm params={"Insert"} setLoading={setLoading} setModVisibility={setModVisibility} user={state.user} org={state.org} user_state={state} setAssets={setAssets} assets={assets} ></CustomForm>
+            <CustomForm
+              params={oprtn === 1 ? "Insert" : "Update"}
+              setLoading={setLoading}
+              setModVisibility={setModVisibility}
+              user={state.user}
+              org={state.org}
+              user_state={state}
+              setAssets={setAssets}
+              assets={assets}
+              editable={editable}
+              setEditable={setEditable}
+              oprtn={oprtn}
+              assetID={assetID}
+            />
           </div>
         </MyModal>
 
@@ -155,8 +186,10 @@ const AllAsset = (props) => {
                     data={asset}
                     setLoading={setLoading}
                     setModalVisibility={setModalVisibility}
+                    setModVisibility={setModVisibility}
                     setAssets={setAssets}
                     setAssetID={setAssetID}
+                    viewAsset={viewAsset}
                   />
                 );
               })}

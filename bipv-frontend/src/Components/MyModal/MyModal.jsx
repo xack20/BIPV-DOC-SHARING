@@ -4,12 +4,12 @@ import { Modal } from "antd";
 
 import { CloseCircleTwoTone } from "@ant-design/icons";
 
-const componentName = ({ children, Width, Title, modalVisibility, setModalVisibility }) => {
+const componentName = ({ children, Width, Title, modalVisibility, setModalVisibility,setEditable }) => {
 
   return (
     <Modal
       visible={modalVisibility}
-      onCancel={ () => setModalVisibility(false) }
+      onCancel={ () => {setModalVisibility(false); setEditable(false); } }
       centered={true}
       footer={null}
       closeIcon={
