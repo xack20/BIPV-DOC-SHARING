@@ -102,7 +102,7 @@ const CustomForm = (props) => {
           },
         ]}
       >
-        {props.editable && <Input placeholder="Document Number" /> }
+        {props.oprtn === 1 && <Input placeholder="Document Number" />}
       </Form.Item>
 
       {props.params !== "Delete" &&
@@ -117,7 +117,7 @@ const CustomForm = (props) => {
                 },
               ]}
             >
-              {(props.oprtn === 1 || props.editable) ? (
+              {props.oprtn === 1 || props.editable ? (
                 <Input placeholder={item} />
               ) : (
                 <div style={{ display: "flex" }}>
