@@ -1,3 +1,6 @@
+git checkout <existing_branch>
+
+
 docker start $(docker ps -aq)                                       # for network
 
 
