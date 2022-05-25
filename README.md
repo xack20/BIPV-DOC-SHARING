@@ -17,7 +17,7 @@
 
 -------------------------------------------------------------------------------
 
-### Need to run all the bellow commands from the project root directory
+# Need to run all the bellow commands from the project root directory
 
 
 ## First Thing First
