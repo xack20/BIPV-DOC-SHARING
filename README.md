@@ -16,7 +16,20 @@
 
 
 -------------------------------------------------------------------------------
+## First Thing first
 
+* Run these commands in a terminal ( Intall npm dependencies )
+ [run these commands once after any new clone of this repository]
+    
+    ```
+        cd bipv-frontend/
+        npm install
+
+        cd ../bipv-network/chaincode-javascript/
+        npm install
+
+        npm install -g json-server
+    ```
 
 ## Open a terminal fron VSCode for managing network
 
