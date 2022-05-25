@@ -16,6 +16,10 @@
 
 
 -------------------------------------------------------------------------------
+
+### Need to run all the bellow commands from the project root directory
+
+
 ## First Thing First
 
 * Run these commands in a terminal ( Install npm dependencies )
@@ -31,7 +35,7 @@
         npm install -g json-server
     ```
 
-## Open a terminal fron VSCode for managing network
+## Open a terminal from VSCode for managing network
 
 * change directory
   ``` 
