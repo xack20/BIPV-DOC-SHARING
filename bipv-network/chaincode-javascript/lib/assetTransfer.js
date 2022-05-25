@@ -77,6 +77,7 @@ class AssetTransfer extends Contract {
             mainContent: mainContent,
             documentLink: documentLink,
             lastModification: (new Date(Date.now())).toUTCString(),
+            transferMessage: "",
         };
         //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
@@ -189,7 +190,7 @@ class AssetTransfer extends Contract {
     }
 
     // TransferAsset updates the owner field of asset with given id in the world state.
-    async TransferAsset(ctx, documentNo, newOwner) {
+    async TransferAsset(ctx, documentNo, newOwner, transferMessage) {
 
         const user = await this.GetID(ctx);
         const owner = await this.GetOwner(ctx, documentNo);
@@ -209,6 +210,7 @@ class AssetTransfer extends Contract {
         asset.receivedBy = newOwner;
         asset.dateReceived = (new Date(Date.now())).toUTCString();
         asset.lastModification = asset.dateReceived;
+        asset.transferMessage = transferMessage;
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
          return await ctx.stub.putState(asset.documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));

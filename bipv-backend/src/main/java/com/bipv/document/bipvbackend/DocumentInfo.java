@@ -15,6 +15,7 @@ public class DocumentInfo {
     // private String documentName;
     private String lastModification;
     // private String id;
+    private String transferMessage;
 
     public String getLastModification() {
         return this.lastModification;
@@ -118,6 +119,13 @@ public class DocumentInfo {
 
     public void setDocumentLink(String documentLink) {
         this.documentLink = documentLink;
+    }
+
+    public void setTransferMessage(String string) {
+    }
+
+    public String getTransferMessage() {
+        return this.transferMessage;
     }
     
 }

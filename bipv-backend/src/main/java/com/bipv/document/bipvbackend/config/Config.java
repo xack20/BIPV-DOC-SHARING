@@ -16,5 +16,6 @@ public class Config {
 		ca_ports = new HashMap<>();
 		ca_ports.put("org1", "7054");
 		ca_ports.put("org2", "8054");
+		ca_ports.put("org3", "11054");
 	}
 }

@@ -24,6 +24,7 @@ public class ApiController {
 		return response;
 	}
 
+	@Deprecated
 	@PostMapping("/init")
 	public Response init(@RequestBody Map<String, String> payload) throws Exception {
 		Response response = new Response(true, "Leedger Inited", ClientApp.InitLedger(payload));
