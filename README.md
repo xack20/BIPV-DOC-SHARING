@@ -16,7 +16,7 @@
 
 
 -------------------------------------------------------------------------------
-## First Thing first
+## First Thing First
 
 * Run these commands in a terminal ( Install npm dependencies )
  [run these commands once after any new clone of this repository]
