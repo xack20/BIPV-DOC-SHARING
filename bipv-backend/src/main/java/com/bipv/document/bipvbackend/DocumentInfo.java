@@ -121,7 +121,8 @@ public class DocumentInfo {
         this.documentLink = documentLink;
     }
 
-    public void setTransferMessage(String string) {
+    public void setTransferMessage(String transferMessage) {
+        this.transferMessage = transferMessage;
     }
 
     public String getTransferMessage() {

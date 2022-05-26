@@ -119,7 +119,7 @@ public class RegisterUser {
 		// Register the user, enroll the user, and import the new identity into the wallet.
 		RegistrationRequest registrationRequest = new RegistrationRequest(payload.get("userName"));
 		registrationRequest.setEnrollmentID(payload.get("userName"));
-		registrationRequest.setAffiliation("org"+ORG+".department1");
+		registrationRequest.setAffiliation("org1.department1");
 		registrationRequest.setType("client");
 		String enrollmentSecret = caClient.register(registrationRequest, admin);
 		Enrollment enrollment = caClient.enroll(payload.get("userName"), enrollmentSecret);

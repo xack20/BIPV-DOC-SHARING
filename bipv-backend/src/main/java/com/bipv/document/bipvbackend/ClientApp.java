@@ -39,7 +39,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -47,10 +47,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -86,7 +83,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -94,10 +91,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -163,7 +157,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -171,10 +165,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG + ".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -223,7 +214,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -231,10 +222,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -278,7 +266,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -286,10 +274,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -349,7 +334,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -357,10 +342,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     // Path networkConfigPath = Paths.get(
@@ -398,7 +380,7 @@ public class ClientApp {
     // } else {
     // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -406,10 +388,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -436,7 +415,7 @@ public class ClientApp {
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = "1";
-    String PEER = "0";
+    // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
@@ -444,10 +423,7 @@ public class ClientApp {
       "/bipv-network/test-network/organizations/peerOrganizations/org" +
       ORG +
       ".example.com/connection-org" +
-      ORG +
-      "-peer" +
-      PEER +
-      ".json"
+      ORG +".json"
     );
 
     Gateway.Builder builder = Gateway
@@ -466,7 +442,7 @@ public class ClientApp {
         "TransferAsset",
         payload.get("documentNo"),
         payload.get("newOwner"),
-		payload.get("transferMessage")
+		    payload.get("transferMessage")
       );
 
       return ReadAsset(payload);
