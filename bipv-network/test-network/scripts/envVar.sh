@@ -87,7 +87,7 @@ setGlobalsCLI() {
   setGlobals $1 $2
 
   local USING_ORG=""
-  local PEER=$2
+  local PEER=${2:-"0"}
   if [ -z "$OVERRIDE_ORG" ]; then
     USING_ORG=$1
   else
@@ -95,9 +95,9 @@ setGlobalsCLI() {
   fi
   if [ $USING_ORG -eq 1 ]; then
     if [ $PEER -eq 0 ]; then
-      export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+      export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
     else
-      export CORE_PEER_ADDRESS=peer1.org2.example.com:6051
+      export CORE_PEER_ADDRESS=peer1.org1.example.com:6051
     fi
   elif [ $USING_ORG -eq 2 ]; then
     if [ $PEER -eq 0 ]; then
