@@ -55,6 +55,7 @@ const AllAssetTable = (props) => {
       "receivedBy",
       "dateReceived",
       "lastModification",
+      "transferMessage"
     ];
 
   const columns = columnsArray.map((column, index) => {

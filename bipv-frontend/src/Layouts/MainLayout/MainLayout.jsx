@@ -17,7 +17,7 @@ import {
 } from "antd";
   
 import {Link} from 'react-router-dom'
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 
 
@@ -49,7 +49,7 @@ const MainLayout = (props) => {
   const [btn, setBtn] = useState(0);
   const [modVisibility, setModVisibility] = useState(false);
   const [check, setCheck] = useState(0);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const chan = {
     org1: ["channel1", "channel2", "channel4"],
@@ -154,7 +154,7 @@ const MainLayout = (props) => {
               </Row>
             </div>
           ) : (
-            <div className="site-card-wrapper">
+            <div className="site-card-wrapper-2">
               <Select
                 // defaultValue="org2"
                 style={{ width: "100%" }}
@@ -168,8 +168,8 @@ const MainLayout = (props) => {
                   // setBtn(btn);
                 }}
               >
-                {chan[state.organization].map((org) => {
-                  return <Option value={org}>{org}</Option>;
+                {chan[state.organization].map((chn) => {
+                  return <Option value={chn}>{chn+" "+ (chn === state.channel ? "(Using)" : "") }</Option>;
                 })}
               </Select>
             </div>

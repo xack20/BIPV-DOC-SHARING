@@ -19,10 +19,11 @@ const SignIn = () => {
     if(data.length > 0){
 
       localStorage.setItem("user", JSON.stringify(data[0]));
-      localStorage.setItem("channel", data[0].channel);
+
+      localStorage.setItem("channel", data[0]["channel"][0]);
       localStorage.setItem(
         "chaincode",
-        "basic-" + data[0].channel
+        "basic-" + data[0].channel[0]
       );
       const { username, organization } = data[0];
       

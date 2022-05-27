@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Avatar,notification } from "antd";
+import { Card, Avatar, notification } from "antd";
 import {
   // EditOutlined,
   DeleteOutlined,
@@ -21,13 +21,12 @@ const Asset = (props) => {
 
   const assetTransfer = () => {
     props.setModalVisibility(true);
-     props.setModVisibility(false);
+    props.setModVisibility(false);
     props.setAssetID(props.idx);
   };
 
   const assetDelete = async () => {
-
-     props.setModVisibility(false);
+    props.setModVisibility(false);
     try {
       props.setLoading(true);
       const data = await deleteAsset({
@@ -53,8 +52,6 @@ const Asset = (props) => {
       });
       props.setLoading(false);
     }
-
-    
   };
 
   return (
@@ -75,12 +72,18 @@ const Asset = (props) => {
       }
       actions={
         props.data.receivedBy === userName && [
-          <InteractionOutlined
-            key="transfer"
-            style={{ fontSize: "150%" }}
-            onClick={assetTransfer}
-          />,
-          // <EditOutlined key="update" style={{ fontSize: "150%" }} />,
+          <PopConfirm
+            title="Confirm Transfer?"
+            onConfirm={() => {
+              assetTransfer();
+            }}
+          >
+            <InteractionOutlined
+              key="transfer"
+              style={{ fontSize: "150%" }}
+            />
+          </PopConfirm>,
+
           <PopConfirm
             title="Confirm Delete?"
             onConfirm={() => {
@@ -90,7 +93,6 @@ const Asset = (props) => {
           >
             <DeleteOutlined
               key="delete"
-              // onClick={assetDelete}
               style={{ fontSize: "150%" }}
             />
           </PopConfirm>,

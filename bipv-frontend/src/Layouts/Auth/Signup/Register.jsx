@@ -17,8 +17,8 @@ import {
 } from "antd";
 
 import {
-  EyeInvisibleOutlined,
-  EyeTwoTone,
+  // EyeInvisibleOutlined,
+  // EyeTwoTone,
   UserOutlined,
   LockOutlined,
 } from "@ant-design/icons";
@@ -34,67 +34,79 @@ const Register = (props) => {
   //history
   const history = useNavigate();
 
-  const [channel , setChannel] = React.useState("channel1");
+  // const [channel , setChannel] = React.useState("channel1");
 
-  const ORGS = {
-    org1: "Taizhou Haineng New Energy Group Co. Ltd.",
-    org2: "Fanzai (Design consultant)",
-    org3: "Jiangsu Haichi Construction Co., Ltd. (Contractor)",
-    org4: "PV Storage System Suppliers Company (PV Storage System Suppliers)",
-    org5: "FM Company (Facilities Manager)",
+  // const ORGS = {
+  //   org1: "Taizhou Haineng New Energy Group Co. Ltd.",
+  //   org2: "Fanzai (Design consultant)",
+  //   org3: "Jiangsu Haichi Construction Co., Ltd. (Contractor)",
+  //   org4: "PV Storage System Suppliers Company (PV Storage System Suppliers)",
+  //   org5: "FM Company (Facilities Manager)",
+  // };
+
+  // const orgs = {
+  //   "channel1": [
+  //     {
+  //       value: "org1",
+  //       label: "Org1",
+  //     },
+  //     {
+  //       value: "org2",
+  //       label: "Org2",
+  //     },
+  //   ],
+  //   "channel2": [
+  //     {
+  //       value: "org1",
+  //       label: "Org1",
+  //     },
+  //     {
+  //       value: "org2",
+  //       label: "Org2",
+  //     },
+  //     {
+  //       value: "org3",
+  //       label: "Org3",
+  //     }
+  //   ],
+  //   "channel3": [
+  //     {
+  //       value: "org2",
+  //       label: "Org2",
+  //     },
+  //     {
+  //       value: "org4",
+  //       label: "Org4",
+  //     },
+  //   ],
+  //   "channel4": [
+  //     {
+  //       value: "org1",
+  //       label: "Org1",
+  //     },
+  //     {
+  //       value: "org5",
+  //       label: "Org5",
+  //     }
+  //   ]
+  // }
+
+  const chan = {
+    org1: ["channel1", "channel2", "channel4"],
+    org2: ["channel1", "channel2", "channel3"],
+    org3: ["channel2"],
+    org4: ["channel3"],
+    org5: ["channel4"],
   };
-
-  const orgs = {
-    "channel1": [
-      {
-        value: "org1",
-        label: "Org1",
-      },
-      {
-        value: "org2",
-        label: "Org2",
-      },
-    ],
-    "channel2": [
-      {
-        value: "org1",
-        label: "Org1",
-      },
-      {
-        value: "org2",
-        label: "Org2",
-      },
-      {
-        value: "org3",
-        label: "Org3",
-      }
-    ],
-    "channel3": [
-      {
-        value: "org2",
-        label: "Org2",
-      },
-      {
-        value: "org4",
-        label: "Org4",
-      },
-    ],
-    "channel4": [
-      {
-        value: "org1",
-        label: "Org1",
-      },
-      {
-        value: "org5",
-        label: "Org5",
-      }
-    ]
-  }
 
   const onFinish = async (values) => {
     console.log("Received values of form: ", values);
 
-    const { username, password ,organization,channel} = values;
+    const { username, password ,organization} = values;
+
+    const channel = chan[organization]
+
+    console.log("channel: ", channel);
 
     const org =
       values.organization === "org4" && values.organization === "org4"
@@ -160,13 +172,13 @@ const Register = (props) => {
           type="password"
           placeholder="Password"
           allowClear
-          iconRender={(visible) =>
-            visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-          }
+          // iconRender={(visible) =>
+          //   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+          // }
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="channel"
           rules={[
             {
@@ -188,7 +200,7 @@ const Register = (props) => {
             <Option value="channel3">Channel 3</Option>
             <Option value="channel4">Channel 4</Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
           name="organization"
@@ -204,9 +216,21 @@ const Register = (props) => {
             style={{ width: "100%" }}
             placeholder="Select Organization"
           >
-            {orgs[channel].map((org) => {
+            {/* {orgs[channel].map((org) => {
               return <Option value={org.value}>{ORGS[org.value]}</Option>;
-            })}
+            })} */}
+            <Option value="org1">
+              Taizhou Haineng New Energy Group Co. Ltd.
+            </Option>
+            <Option value="org2">Fanzai (Design consultant)</Option>
+            <Option value="org3">
+              Jiangsu Haichi Construction Co., Ltd. (Contractor)
+            </Option>
+            <Option value="org4">
+              PV Storage System Suppliers Company (PV Storage System
+              Suppliers)
+            </Option>
+            <Option value="org5">FM Company (Facilities Manager)</Option>
           </Select>
         </Form.Item>
 
