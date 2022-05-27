@@ -52,7 +52,8 @@ const MainLayout = (props) => {
   const [state] = useState({
     user: JSON.parse(localStorage.getItem("user")).username,
     peer: "peer0",
-    org: JSON.parse(localStorage.getItem("user")).organization,
+    org: JSON.parse(localStorage.getItem("user")).org,
+    organization: JSON.parse(localStorage.getItem("user")).organization,
     channel: JSON.parse(localStorage.getItem("user")).channel,
   });
 

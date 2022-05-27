@@ -86,6 +86,7 @@ public class ClientApp {
     // String PEER = "0";
 
     // load a CCP
+    System.out.println(ORG);
     Path networkConfigPath = Paths.get(
       System.getProperty("user.dir") +
       "/bipv-network/test-network/organizations/peerOrganizations/org" +

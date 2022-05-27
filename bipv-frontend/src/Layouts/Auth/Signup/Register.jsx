@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 import {
   // Layout,
   // Menu,
@@ -15,7 +16,13 @@ import {
   notification,
 } from "antd";
 
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import {
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+  UserOutlined,
+  LockOutlined,
+} from "@ant-design/icons";
+
 import { Link } from "react-router-dom";
 
 import { addUser } from "../../../Services/Service";
@@ -153,6 +160,9 @@ const Register = (props) => {
           type="password"
           placeholder="Password"
           allowClear
+          iconRender={(visible) =>
+            visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+          }
         />
       </Form.Item>
       <Form.Item>
@@ -169,7 +179,9 @@ const Register = (props) => {
             // defaultValue="org2"
             style={{ width: "100%" }}
             placeholder="Select Channel"
-            onChange={(value) => {setChannel(value)}}
+            onChange={(value) => {
+              setChannel(value);
+            }}
           >
             <Option value="channel1">Channel 1</Option>
             <Option value="channel2">Channel 2</Option>
@@ -192,13 +204,9 @@ const Register = (props) => {
             style={{ width: "100%" }}
             placeholder="Select Organization"
           >
-            
-            {
-              orgs[channel].map((org) => {
-                return <Option value={org.value}>{ORGS[org.value]}</Option>;
-              })
-            }
-            
+            {orgs[channel].map((org) => {
+              return <Option value={org.value}>{ORGS[org.value]}</Option>;
+            })}
           </Select>
         </Form.Item>
 
