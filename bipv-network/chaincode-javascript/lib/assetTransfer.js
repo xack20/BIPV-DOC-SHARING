@@ -161,10 +161,10 @@ class AssetTransfer extends Contract {
 
 
     async GetHistoryForAsset(ctx, documentNo) {
-        const exists = await this.AssetExists(ctx, documentNo);
-        if (!exists) {
-            throw new Error(`The asset ${documentNo} does not exist`);
-        }
+        // const exists = await this.AssetExists(ctx, documentNo);
+        // if (!exists) {
+        //     throw new Error(`The asset ${documentNo} does not exist`);
+        // }
         const resultsIterator = await ctx.stub.getHistoryForKey(documentNo);
         const results = [];
         while (true) {
