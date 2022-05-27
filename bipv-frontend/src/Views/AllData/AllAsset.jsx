@@ -27,8 +27,8 @@ const AllAsset = (props) => {
       peer: "peer0",
       org: JSON.parse(localStorage.getItem("user")).organization,
       opt: "create",
-      channel: JSON.parse(localStorage.getItem("user")).channel,
-      chaincode: "basic-" + JSON.parse(localStorage.getItem("user")).channel,
+      channel: localStorage.getItem("channel"),
+      chaincode: localStorage.getItem("chaincode"),
     });
 
     const [modalVisibility, setModalVisibility] = useState(false);

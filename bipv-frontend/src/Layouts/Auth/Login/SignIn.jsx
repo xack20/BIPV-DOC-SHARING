@@ -19,6 +19,11 @@ const SignIn = () => {
     if(data.length > 0){
 
       localStorage.setItem("user", JSON.stringify(data[0]));
+      localStorage.setItem("channel", data[0].channel);
+      localStorage.setItem(
+        "chaincode",
+        "basic-" + data[0].channel
+      );
       const { username, organization } = data[0];
       
       await enrollAdmin({"org" : data[0].organization});

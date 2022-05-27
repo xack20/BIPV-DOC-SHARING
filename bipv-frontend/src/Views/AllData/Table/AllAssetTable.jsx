@@ -14,8 +14,8 @@ const AllAssetTable = (props) => {
       user: JSON.parse(localStorage.getItem("user")).username,
       peer: "peer0",
       org: JSON.parse(localStorage.getItem("user")).organization,
-      channel: JSON.parse(localStorage.getItem("user")).channel,
-      chaincode : "basic-"+JSON.parse(localStorage.getItem("user")).channel,
+      channel: localStorage.getItem("channel"),
+      chaincode: localStorage.getItem("chaincode"),
     });
 
 

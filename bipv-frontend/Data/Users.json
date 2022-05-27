@@ -1,28 +1,5 @@
 {
   "users": [
-    {
-      "username": "tush1234",
-      "password": "tush1234",
-      "organization": "org1",
-      "channel": "channel1",
-      "org": "org1",
-      "id": 1
-    },
-    {
-      "username": "rizvivai",
-      "password": "rizvivai",
-      "organization": "org2",
-      "channel": "channel1",
-      "org": "org2",
-      "id": 2
-    },
-    {
-      "username": "samiulvai",
-      "password": "samiulvai",
-      "organization": "org3",
-      "channel": "channel2",
-      "org": "org3",
-      "id": 3
-    }
+    
   ]
 }
