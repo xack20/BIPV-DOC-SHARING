@@ -28,7 +28,8 @@ const AllAsset = (props) => {
   const [state] = useState({
     user: JSON.parse(localStorage.getItem("user")).username,
     peer: "peer0",
-    org: JSON.parse(localStorage.getItem("user")).organization,
+    org: JSON.parse(localStorage.getItem("user")).org,
+    orgainization: JSON.parse(localStorage.getItem("user")).orgainization,
     opt: "create",
     channel: localStorage.getItem("channel"),
     chaincode: localStorage.getItem("chaincode"),
@@ -87,6 +88,15 @@ const AllAsset = (props) => {
 
   const assetTransfer = async (asset) => {
     // console.log(assetID);
+    if(newUser===""){
+      notification.error({
+        message: "Error",
+        description: "Set an user to transfer!",
+        placement: "bottomRight",
+      });
+      setModalVisibility(false);
+      return;
+    }
 
     setLoading(true);
     try {

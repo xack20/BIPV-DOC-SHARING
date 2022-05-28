@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useEffect } from "react";
 import PopConfirm from "../PopConfirm/PopConfirm.jsx";
-import { deleteAsset } from "../../Services/Service.js";
+import { addDeletedAsset, deleteAsset } from "../../Services/Service.js";
 
 const { Meta } = Card;
 
@@ -29,10 +29,19 @@ const Asset = (props) => {
     props.setModVisibility(false);
     try {
       props.setLoading(true);
+      await addDeletedAsset({
+        userName,
+        documentNo: props.data.documentNo,
+        org: JSON.parse(localStorage.getItem("user")).org,
+        orgainization: JSON.parse(localStorage.getItem("user")).orgainization,
+        channel: localStorage.getItem("channel"),
+        chaincode: localStorage.getItem("chaincode"),
+      });
       const data = await deleteAsset({
         userName,
         documentNo: props.data.documentNo,
-        org: JSON.parse(localStorage.getItem("user")).organization,
+        org: JSON.parse(localStorage.getItem("user")).org,
+        orgainization: JSON.parse(localStorage.getItem("user")).orgainization,
         channel: localStorage.getItem("channel"),
         chaincode: localStorage.getItem("chaincode"),
       });

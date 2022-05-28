@@ -15,6 +15,13 @@ import {
   Col,
   Row,
 } from "antd";
+
+// import {
+//   Routes,
+//   Route,
+//   BrowserRouter as Router,
+//   Navigate,
+// } from "react-router-dom";
   
 import {Link} from 'react-router-dom'
 // import { useNavigate } from "react-router-dom";
@@ -36,6 +43,7 @@ import AllAsset from "../../Views/AllData/AllAsset";
 import AllAssetTable from "../../Views/AllData/Table/AllAssetTable";
 
 import MyModal from "../../Components/MyModal/MyModal.jsx";
+import DeletedInfo from "../DeletedInfo/DeletedInfo";
 // import Asset from "../../Components/CustomCard/Asset";
 
 
@@ -47,7 +55,9 @@ const { Option } = Select;
 const MainLayout = (props) => {
   
   const [btn, setBtn] = useState(0);
-  const [modVisibility, setModVisibility] = useState(false);
+  const [btnn, setBtnn] = useState(0);
+  const [viewName, setViewName] = useState("Card View");
+  const [modVisibility, setModVisibility] = useState(props.visible);
   const [check, setCheck] = useState(0);
   // const navigate = useNavigate();
 
@@ -72,8 +82,19 @@ const MainLayout = (props) => {
       setModVisibility(true);
   }
 
-  const listView = ()=>{
-    setBtn((btn+1)%2);
+  const ChangeAssetView = ()=>{
+    setBtnn((btnn+1)%2);
+    if(((btnn+1)%2 === 1)){
+      setBtn(1);
+      setViewName("Table View");
+    }
+    else {
+      setBtn(0);
+      setViewName("Card View");
+    }
+  }
+  const deletedAsset = ()=>{
+    setBtn(2);
   }
 
   const switchChannel = () => {
@@ -90,8 +111,11 @@ const MainLayout = (props) => {
             <Link to="/login">Login</Link>
           </Menu.Item>
         </Menu> */}
-        <Button style={{ float: "left", marginTop: "1%" }} onClick={listView}>
-          {btn === 0 ? "Table View" : "Card View"}
+        <Button
+          style={{ float: "left", marginTop: "1%" }}
+          onClick={ChangeAssetView}
+        >
+          {viewName}
         </Button>
 
         <Button style={{ float: "right", marginTop: "1%", marginLeft: "10px" }}>
@@ -104,10 +128,16 @@ const MainLayout = (props) => {
           Info
         </Button>
         <Button
-          style={{ float: "right", marginTop: "1%" }}
+          style={{ float: "right", marginTop: "1%", marginLeft: "10px" }}
           onClick={switchChannel}
         >
           Switch Channel
+        </Button>
+        <Button
+          style={{ float: "right", marginTop: "1%" }}
+          onClick={deletedAsset}
+        >
+          Deleted Assets
         </Button>
       </Header>
       <Content style={{ padding: "0 50px" }}>
@@ -169,7 +199,11 @@ const MainLayout = (props) => {
                 }}
               >
                 {chan[state.organization].map((chn) => {
-                  return <Option value={chn}>{chn+" "+ (chn === state.channel ? "(Using)" : "") }</Option>;
+                  return (
+                    <Option value={chn}>
+                      {chn + " " + (chn === state.channel ? "(Using)" : "")}
+                    </Option>
+                  );
                 })}
               </Select>
             </div>
@@ -183,8 +217,14 @@ const MainLayout = (props) => {
         </div> */}
 
         <div className="content">
-          {btn + 1 === 1 ? <AllAsset /> : <AllAssetTable />}
+          {btn === 0 && <AllAsset />}
+          {btn === 1 && <AllAssetTable />}
+          {btn === 2 && <DeletedInfo />}
         </div>
+
+        {/* <Routes>
+          <Route exact path="/home/deleted-history" element={<DeletedInfo />} />
+        </Routes> */}
       </Content>
       <Footer style={{ textAlign: "center" }}>
         BIPV-Document-Sharing ©2022 Created by BIPV

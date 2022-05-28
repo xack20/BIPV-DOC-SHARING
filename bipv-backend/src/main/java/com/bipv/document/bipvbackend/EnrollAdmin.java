@@ -62,7 +62,7 @@ public class EnrollAdmin {
 		Wallet wallet = Wallets.newFileSystemWallet(Paths.get("wallet"));
 
 		// Check to see if we've already enrolled the admin user.
-		if (wallet.get(payload.get("org") + "_admin") != null) {
+		if (wallet.get(payload.get("organization") + "_admin") != null) {
 			System.out.println("An identity for the admin user \"admin\" already exists in the wallet");
 			return "An identity for the admin user \"admin\" already exists in the wallet";
 		}
@@ -76,7 +76,7 @@ public class EnrollAdmin {
 
 		Identity user = Identities.newX509Identity("Org"+ORG+"MSP", enrollment);
 		
-		wallet.put(payload.get("org") + "_admin", user);
+		wallet.put(payload.get("organization") + "_admin", user);
 		
 		return "Successfully enrolled user \"admin\" and imported it into the wallet";
 	}

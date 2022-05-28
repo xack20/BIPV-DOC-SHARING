@@ -79,8 +79,8 @@ elif [ "$CC_SRC_LANGUAGE" = "typescript" ]; then
 
   infoln "Compiling TypeScript code into JavaScript..."
   pushd $CC_SRC_PATH
-  npm install
-  npm run build
+  # npm install
+  # npm run build
   popd
   successln "Finished compiling TypeScript code into JavaScript"
 

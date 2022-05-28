@@ -184,7 +184,7 @@ class AssetTransfer extends Contract {
                 console.log('end of data');
                 await resultsIterator.close();
                 console.info(results);
-                return JSON.stringify(results);
+                return JSON.stringify(results[results.length - 1]);
             }
         }
     }

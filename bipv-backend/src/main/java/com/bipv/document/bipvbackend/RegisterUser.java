@@ -64,7 +64,7 @@ public class RegisterUser {
 		
 		
 
-		X509Identity adminIdentity = (X509Identity)wallet.get( payload.get("org")+"_admin");
+		X509Identity adminIdentity = (X509Identity)wallet.get( payload.get("organization")+"_admin");
 		if (adminIdentity == null) {
 			System.out.println("\"admin\" needs to be enrolled and added to the wallet first");
 			return "\"admin\" needs to be enrolled and added to the wallet first";

@@ -25,10 +25,12 @@ const SignIn = () => {
         "chaincode",
         "basic-" + data[0].channel[0]
       );
-      const { username, organization } = data[0];
+      const { username } = data[0];
+
+      console.log(data);
       
-      await enrollAdmin({"org" : data[0].organization});
-      await registerUser({"userName" : username, "org" : organization});
+      await enrollAdmin({org : data[0].org, organization : data[0].organization});
+      await registerUser({ userName: username, org: data[0].org , organization : data[0].organization});
       
       window.location.href = "/home";
     }

@@ -13,7 +13,8 @@ const AllAssetTable = (props) => {
     const [state] = useState({
       user: JSON.parse(localStorage.getItem("user")).username,
       peer: "peer0",
-      org: JSON.parse(localStorage.getItem("user")).organization,
+      org: JSON.parse(localStorage.getItem("user")).org,
+        orgainization: JSON.parse(localStorage.getItem("user")).orgainization,
       channel: localStorage.getItem("channel"),
       chaincode: localStorage.getItem("chaincode"),
     });

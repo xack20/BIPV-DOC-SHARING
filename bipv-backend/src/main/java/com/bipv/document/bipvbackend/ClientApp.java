@@ -18,43 +18,43 @@ public class ClientApp {
   // private static final String UTF_8 = "UTF-8";
   static {
     System.setProperty(
-      "org.hyperledger.fabric.sdk.service_discovery.as_localhost",
-      "true"
-    );
+        "org.hyperledger.fabric.sdk.service_discovery.as_localhost",
+        "true");
   }
 
   @Deprecated
   public static Object InitLedger(Map<String, String> payload)
-    throws Exception {
+      throws Exception {
     // Load a file system based wallet for managing identities.
     Path walletPath = Paths.get("wallet");
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -69,37 +69,38 @@ public class ClientApp {
   }
 
   public static Object GetAllAssets(Map<String, String> payload)
-    throws Exception {
+      throws Exception {
     // Load a file system based wallet for managing identities.
     Path walletPath = Paths.get("wallet");
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     System.out.println(ORG);
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -135,7 +136,7 @@ public class ClientApp {
         doc.setSentBy(jsonObject.getString("sentBy"));
         doc.setReceivedBy(jsonObject.getString("receivedBy"));
         doc.setMainContent(jsonObject.getString("mainContent"));
-		doc.setTransferMessage(jsonObject.getString("transferMessage"));
+        doc.setTransferMessage(jsonObject.getString("transferMessage"));
 
         docList.add(doc);
       }
@@ -150,30 +151,31 @@ public class ClientApp {
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG + ".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -184,14 +186,13 @@ public class ClientApp {
       // call the chaincode function
       try {
         contract.submitTransaction(
-          "CreateAsset",
-          payload.get("documentNo"),
-          payload.get("documentType"),
-          payload.get("projectStage"),
-          payload.get("documentSize"),
-          payload.get("mainContent"),
-          payload.get("documentLink")
-        );
+            "CreateAsset",
+            payload.get("documentNo"),
+            payload.get("documentType"),
+            payload.get("projectStage"),
+            payload.get("documentSize"),
+            payload.get("mainContent"),
+            payload.get("documentLink"));
       } catch (Exception e) {
         return e.getMessage();
       }
@@ -201,36 +202,37 @@ public class ClientApp {
   }
 
   public static Object UpdateAsset(Map<String, String> payload)
-    throws Exception {
+      throws Exception {
     // Load a file system based wallet for managing identities.
     Path walletPath = Paths.get("wallet");
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -240,14 +242,13 @@ public class ClientApp {
 
       // call the chaincode function
       contract.submitTransaction(
-        "UpdateAsset",
-        payload.get("documentNo"),
-        payload.get("documentType"),
-        payload.get("projectStage"),
-        payload.get("documentSize"),
-        payload.get("mainContent"),
-        payload.get("documentLink")
-      );
+          "UpdateAsset",
+          payload.get("documentNo"),
+          payload.get("documentType"),
+          payload.get("projectStage"),
+          payload.get("documentSize"),
+          payload.get("mainContent"),
+          payload.get("documentLink"));
 
       return ReadAsset(payload);
     }
@@ -259,30 +260,31 @@ public class ClientApp {
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -291,9 +293,8 @@ public class ClientApp {
       Contract contract = network.getContract(payload.get("chaincode"));
 
       byte[] result = contract.evaluateTransaction(
-        "ReadAsset",
-        payload.get("documentNo")
-      );
+          "ReadAsset",
+          payload.get("documentNo"));
 
       String res = new String(result);
 
@@ -314,46 +315,47 @@ public class ClientApp {
       doc.setSentBy(jsonObject.getString("sentBy"));
       doc.setReceivedBy(jsonObject.getString("receivedBy"));
       doc.setMainContent(jsonObject.getString("mainContent"));
-	  doc.setTransferMessage(jsonObject.getString("transferMessage"));
+      doc.setTransferMessage(jsonObject.getString("transferMessage"));
 
       return doc;
     }
   }
 
   public static Object DeleteAsset(Map<String, String> payload)
-    throws Exception {
+      throws Exception {
     // Load a file system based wallet for managing identities.
     Path walletPath = Paths.get("wallet");
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     // Path networkConfigPath = Paths.get(
-    // 		System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
+    // System.getProperty("user.dir")+"/bipv-network/test-network/organizations/peerOrganizations/org1.example.com/connection-org1-peer0.json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -373,30 +375,31 @@ public class ClientApp {
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ? String.valueOf(Config.peer_org1) : String.valueOf(
-    // 		Config.peer_org2);
+    // String PEER = payload.get("org").equals("org1") ?
+    // String.valueOf(Config.peer_org1) : String.valueOf(
+    // Config.peer_org2);
 
     // if(ORG.equals("1")) {
-    // 	Config.peer_org1 = (Config.peer_org1 + 1) % 2;
+    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
     // } else {
-    // 	Config.peer_org2 = (Config.peer_org2 + 1) % 2;
+    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
     // }
     // String PEER = "0";
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -411,7 +414,7 @@ public class ClientApp {
   }
 
   public static Object TransferAsset(Map<String, String> payload)
-    throws Exception {
+      throws Exception {
     Path walletPath = Paths.get("wallet");
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
@@ -420,18 +423,18 @@ public class ClientApp {
 
     // load a CCP
     Path networkConfigPath = Paths.get(
-      System.getProperty("user.dir") +
-      "/bipv-network/test-network/organizations/peerOrganizations/org" +
-      ORG +
-      ".example.com/connection-org" +
-      ORG +".json"
-    );
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
 
     Gateway.Builder builder = Gateway
-      .createBuilder()
-      .identity(wallet, payload.get("userName"))
-      .networkConfig(networkConfigPath)
-      .discovery(true);
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
 
     // create a gateway connection
     try (Gateway gateway = builder.connect()) {
@@ -440,13 +443,75 @@ public class ClientApp {
       Contract contract = network.getContract(payload.get("chaincode"));
 
       contract.submitTransaction(
-        "TransferAsset",
-        payload.get("documentNo"),
-        payload.get("newOwner"),
-		    payload.get("transferMessage")
-      );
+          "TransferAsset",
+          payload.get("documentNo"),
+          payload.get("newOwner"),
+          payload.get("transferMessage"));
 
       return ReadAsset(payload);
+    }
+  }
+
+  public static Object DeletedAssetInfo(Map<String, String> payload)
+      throws Exception {
+    Path walletPath = Paths.get("wallet");
+    Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+    String ORG = payload.get("org").split("org")[1];
+
+    // load a CCP
+    System.out.println(ORG);
+    Path networkConfigPath = Paths.get(
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
+
+    Gateway.Builder builder = Gateway
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
+
+    // create a gateway connection
+    try (Gateway gateway = builder.connect()) {
+      // get the network and contract
+      Network network = gateway.getNetwork(payload.get("channel"));
+      Contract contract = network.getContract(payload.get("chaincode"));
+
+      byte[] result;
+
+      result = contract.evaluateTransaction(
+          "GetHistoryForAsset",
+          payload.get("documentNo"));
+
+      String res = new String(result);
+
+      JSONObject jsonObject = new JSONObject(res);
+
+      DocumentInfo doc = new DocumentInfo();
+
+      jsonObject = jsonObject.getJSONObject("Record");
+
+      doc.setDocumentNo(jsonObject.getString("documentNo"));
+      // doc.setId(jsonObject.getString("id"));
+      doc.setDocumentLink(jsonObject.getString("documentLink"));
+      doc.setDocumentType(jsonObject.getString("documentType"));
+      doc.setDocumentSize(jsonObject.getString("documentSize"));
+      // doc.setDocName(jsonObject.getString("documentName"));
+      doc.setLastModification(jsonObject.getString("lastModification"));
+      // doc.setOwner(jsonObject.getString("ownedBy"));
+
+      doc.setDateReceived(jsonObject.getString("dateReceived"));
+      doc.setProjectStage(jsonObject.getString("projectStage"));
+      doc.setSentBy(jsonObject.getString("sentBy"));
+      doc.setReceivedBy(jsonObject.getString("receivedBy"));
+      doc.setMainContent(jsonObject.getString("mainContent"));
+      doc.setTransferMessage(jsonObject.getString("transferMessage"));
+
+      return doc;
     }
   }
 }

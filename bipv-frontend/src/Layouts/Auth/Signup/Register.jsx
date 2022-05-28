@@ -109,11 +109,11 @@ const Register = (props) => {
     console.log("channel: ", channel);
 
     const org =
-      values.organization === "org4" && values.organization === "org4"
-        ? values.organization === "org4"
+      ((values.organization === "org4" || values.organization === "org5")
+        ? (values.organization === "org4"
           ? "org1"
-          : "org2"
-        : values.organization;
+          : "org2")
+        : values.organization);
 
     const res = await addUser({ username, password, organization, channel, org });
 
