@@ -21,13 +21,18 @@ export PEER1_ORG2_CA=${PWD}/organizations/peerOrganizations/org2.example.com/tls
 
 export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
 
+export PEER0_ORG4_CA=${PWD}/organizations/peerOrganizations/org4.example.com/tlsca/tlsca.org4.example.com-cert.pem
+
+export PEER0_ORG5_CA=${PWD}/organizations/peerOrganizations/org5.example.com/tlsca/tlsca.org5.example.com-cert.pem
+
+
 export ORDERER_ADMIN_TLS_SIGN_CERT=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
 export ORDERER_ADMIN_TLS_PRIVATE_KEY=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key
 
 # Set environment variables for the peer org
 setGlobals() {
   local USING_ORG=""
-  local PEER=$2
+  local PEER=${2:-"0"}
   if [ -z "$OVERRIDE_ORG" ]; then
     USING_ORG=$1
   else
@@ -58,6 +63,16 @@ setGlobals() {
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
     export CORE_PEER_ADDRESS=localhost:11051
+  elif [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_LOCALMSPID="Org4MSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG4_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
+    export CORE_PEER_ADDRESS=localhost:12051
+  elif [ $USING_ORG -eq 5 ]; then
+    export CORE_PEER_LOCALMSPID="Org5MSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG5_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org5.example.com/users/Admin@org5.example.com/msp
+    export CORE_PEER_ADDRESS=localhost:13051
   else
     errorln "ORG Unknown"
   fi
@@ -72,7 +87,7 @@ setGlobalsCLI() {
   setGlobals $1 $2
 
   local USING_ORG=""
-  local PEER=$2
+  local PEER=${2:-"0"}
   if [ -z "$OVERRIDE_ORG" ]; then
     USING_ORG=$1
   else
@@ -80,9 +95,9 @@ setGlobalsCLI() {
   fi
   if [ $USING_ORG -eq 1 ]; then
     if [ $PEER -eq 0 ]; then
-      export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+      export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
     else
-      export CORE_PEER_ADDRESS=peer1.org2.example.com:6051
+      export CORE_PEER_ADDRESS=peer1.org1.example.com:6051
     fi
   elif [ $USING_ORG -eq 2 ]; then
     if [ $PEER -eq 0 ]; then
@@ -92,6 +107,10 @@ setGlobalsCLI() {
     fi
   elif [ $USING_ORG -eq 3 ]; then
     export CORE_PEER_ADDRESS=peer0.org3.example.com:11051
+  elif [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_ADDRESS=peer0.org4.example.com:12051
+  elif [ $USING_ORG -eq 5 ]; then
+    export CORE_PEER_ADDRESS=peer0.org5.example.com:13051
   else
     errorln "ORG Unknown"
   fi

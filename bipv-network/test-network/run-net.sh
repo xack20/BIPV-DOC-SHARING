@@ -21,5 +21,26 @@ docker network rm fabric_test
 ./network.sh createChannel -c channel1
 ./network.sh deployCC -ccn basic-channel1 -ccp ../chaincode-javascript -ccl javascript -c channel1
 
+
+
+
 ./network.sh createChannel -c channel2
 ./network.sh deployCC -ccn basic-channel2 -ccp ../chaincode-javascript -ccl javascript -c channel2
+
+
+cd addOrg3
+./addOrg3.sh up -ca -c channel2
+cd ..
+
+./3rd_org.sh
+
+
+
+
+
+./network.sh createChannel -c channel3
+./network.sh deployCC -ccn basic-channel3 -ccp ../chaincode-javascript -ccl javascript -c channel3
+
+
+./network.sh createChannel -c channel4
+./network.sh deployCC -ccn basic-channel4 -ccp ../chaincode-javascript -ccl javascript -c channel4

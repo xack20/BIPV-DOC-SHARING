@@ -15,7 +15,7 @@ function App() {
                 <Route exact path="/" element={<Navigate replace to="/login" />} />
                 <Route exact path="/login" element={<SignIn/>} />
                 <Route exact path="/register" element={<Register/>} />
-                <Route exact path="/home" element={<MainLayout/>} />
+                <Route exact path="/home" element={<MainLayout visible={true}/>} />
                 <Route path="*" element={<Navigate to ="/" />}/>
             </Routes>
         </Router>

@@ -9,7 +9,7 @@ const componentName = ({ children, Width, Title, modalVisibility, setModalVisibi
   return (
     <Modal
       visible={modalVisibility}
-      onCancel={ () => {setModalVisibility(false); setEditable(false); } }
+      onCancel={ () => {setModalVisibility(false); /*setEditable(false);*/ } }
       centered={true}
       footer={null}
       closeIcon={

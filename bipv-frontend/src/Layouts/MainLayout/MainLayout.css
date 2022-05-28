@@ -21,3 +21,7 @@
     grid-gap: 10px;
     min-height: 760px;
 }
+
+.site-card-wrapper-2{
+    min-height: 150px;
+}

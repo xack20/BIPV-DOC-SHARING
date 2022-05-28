@@ -25,6 +25,7 @@ const CustomForm = (props) => {
     "projectStage",
     "documentSize",
     "mainContent",
+    "transferMessage"
   ];
 
   const onFinish = async (values) => {
@@ -108,38 +109,40 @@ const CustomForm = (props) => {
       {props.params !== "Delete" &&
         formFields.map((item, index) => {
           return (
-            <Form.Item
-              key={index}
-              name={item}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              {props.oprtn === 1 || props.editable ? (
-                <Input placeholder={item} />
-              ) : (
-                <div style={{ display: "flex" }}>
-                  <h3 style={{ marginRight: "10px", fontWeight: "bold" }}>
-                    {item.charAt(0).toUpperCase() +
-                      item.replace(/([A-Z])/g, " $1").slice(1) +
-                      ":   "}
-                  </h3>
-                  {item === "documentLink" ? (
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      href={"https://" + props.assets[props.assetID][item]}
-                    >
-                      {props.assets[props.assetID][item]}
-                    </a>
-                  ) : (
-                    props.assets[props.assetID][item]
-                  )}
-                </div>
-              )}
-            </Form.Item>
+            item !== "transferMessage" && (
+              <Form.Item
+                key={index}
+                name={item}
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                {props.oprtn === 1 || props.editable ? (
+                  <Input placeholder={item} />
+                ) : (
+                  <div style={{ display: "flex" }}>
+                    <h3 style={{ marginRight: "10px", fontWeight: "bold" }}>
+                      {item.charAt(0).toUpperCase() +
+                        item.replace(/([A-Z])/g, " $1").slice(1) +
+                        ":   "}
+                    </h3>
+                    {item === "documentLink" ? (
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={"https://" + props.assets[props.assetID][item]}
+                      >
+                        {props.assets[props.assetID][item]}
+                      </a>
+                    ) : (
+                      props.assets[props.assetID][item]
+                    )}
+                  </div>
+                )}
+              </Form.Item>
+            )
           );
         })}
 

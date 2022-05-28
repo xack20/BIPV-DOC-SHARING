@@ -1,0 +1,23 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 30px;
+}
+
+.transfer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.addAsset {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 30px;
+    padding: 20px;
+    margin: 10px;
+    /* background-color: red; */
+}

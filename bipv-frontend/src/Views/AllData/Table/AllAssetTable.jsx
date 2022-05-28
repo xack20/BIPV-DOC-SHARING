@@ -13,9 +13,10 @@ const AllAssetTable = (props) => {
     const [state] = useState({
       user: JSON.parse(localStorage.getItem("user")).username,
       peer: "peer0",
-      org: JSON.parse(localStorage.getItem("user")).organization,
-      channel: JSON.parse(localStorage.getItem("user")).channel,
-      chaincode : "basic-"+JSON.parse(localStorage.getItem("user")).channel,
+      org: JSON.parse(localStorage.getItem("user")).org,
+        orgainization: JSON.parse(localStorage.getItem("user")).orgainization,
+      channel: localStorage.getItem("channel"),
+      chaincode: localStorage.getItem("chaincode"),
     });
 
 
@@ -55,6 +56,7 @@ const AllAssetTable = (props) => {
       "receivedBy",
       "dateReceived",
       "lastModification",
+      "transferMessage"
     ];
 
   const columns = columnsArray.map((column, index) => {

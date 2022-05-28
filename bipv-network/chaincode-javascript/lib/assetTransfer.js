@@ -77,6 +77,7 @@ class AssetTransfer extends Contract {
             mainContent: mainContent,
             documentLink: documentLink,
             lastModification: (new Date(Date.now())).toUTCString(),
+            transferMessage: "",
         };
         //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));
@@ -160,10 +161,10 @@ class AssetTransfer extends Contract {
 
 
     async GetHistoryForAsset(ctx, documentNo) {
-        const exists = await this.AssetExists(ctx, documentNo);
-        if (!exists) {
-            throw new Error(`The asset ${documentNo} does not exist`);
-        }
+        // const exists = await this.AssetExists(ctx, documentNo);
+        // if (!exists) {
+        //     throw new Error(`The asset ${documentNo} does not exist`);
+        // }
         const resultsIterator = await ctx.stub.getHistoryForKey(documentNo);
         const results = [];
         while (true) {
@@ -183,13 +184,13 @@ class AssetTransfer extends Contract {
                 console.log('end of data');
                 await resultsIterator.close();
                 console.info(results);
-                return JSON.stringify(results);
+                return JSON.stringify(results[results.length - 1]);
             }
         }
     }
 
     // TransferAsset updates the owner field of asset with given id in the world state.
-    async TransferAsset(ctx, documentNo, newOwner) {
+    async TransferAsset(ctx, documentNo, newOwner, transferMessage) {
 
         const user = await this.GetID(ctx);
         const owner = await this.GetOwner(ctx, documentNo);
@@ -209,6 +210,7 @@ class AssetTransfer extends Contract {
         asset.receivedBy = newOwner;
         asset.dateReceived = (new Date(Date.now())).toUTCString();
         asset.lastModification = asset.dateReceived;
+        asset.transferMessage = transferMessage;
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
          return await ctx.stub.putState(asset.documentNo, Buffer.from(stringify(sortKeysRecursive(asset))));

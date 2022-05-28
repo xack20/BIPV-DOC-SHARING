@@ -23,6 +23,10 @@ export const transferAsset = (data) => {
   return axios.post('/transferAsset', data)
 }
 
+export const getDeteledAssetInfo = (data) => {
+  return axios.post('/deletedAssetInfo', data)
+}
+
 
 
 // json-server
@@ -37,6 +41,16 @@ export const getUser = ({username,password}) => {
 // json-server
 export const getAllUsers = () => {
   return axios.get('/users')
+}
+
+// json-server
+export const addDeletedAsset = (data) => {
+  return axios.post('/deletedAssets',data)
+}
+
+// json-server
+export const getDeletedAssets = () => {
+  return axios.get('/deletedAssets')
 }
 
 
