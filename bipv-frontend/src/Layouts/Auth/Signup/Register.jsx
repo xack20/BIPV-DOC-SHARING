@@ -25,7 +25,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-import { addUser } from "../../../Services/Service";
+import { addUser, checkUser } from "../../../Services/Service";
 import "./Register.css";
 
 const { Option } = Select;
@@ -114,6 +114,21 @@ const Register = (props) => {
           ? "org1"
           : "org2")
         : values.organization);
+
+
+    const usrArray = await checkUser({username});
+
+    console.log(usrArray.data.length);
+
+    if (usrArray.data.length !== 0) {
+      notification.error({
+        message: "Error",
+        description: "Username already exists",
+        placement: "bottomRight",
+      });
+      return;
+    }
+
 
     const res = await addUser({ username, password, organization, channel, org });
 

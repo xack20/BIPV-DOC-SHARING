@@ -49,20 +49,20 @@ const DeletedInfo = (props) => {
     setLoading(true);
     const getData = async () => {
       try {
-        const { data } = await getDeletedAssets();
+        const { data } = await getDeletedAssets({ channel: state.channel });
 
-        console.log(data);
+        // console.log(data);
 
         const assetsTemp = [];
         for (let i = 0; i < data.length; i++) {
-          if (data[i].channel === state.channel) {
-            const DATA = await getDeteledAssetInfo({
-              userName: state.user,
-              ...state,
-              documentNo: data[i].documentNo,
-            });
-            assetsTemp.push(DATA.data.additionalPayload);
-          }
+          const DATA = await getDeteledAssetInfo({
+            userName: state.user,
+            ...state,
+            documentNo: data[i].documentNo,
+          });
+          const temp = DATA.data.additionalPayload;
+          temp.timeOfDeletion = data[i].timeOfDeletion;
+          assetsTemp.push(temp);
         }
 
         setAssets(() => assetsTemp);
@@ -145,6 +145,7 @@ const DeletedInfo = (props) => {
                   setAssets={setAssets}
                   setAssetID={setAssetID}
                   viewAsset={viewAsset}
+                  isDeletedAsset={true}
                 />
               );
             })}

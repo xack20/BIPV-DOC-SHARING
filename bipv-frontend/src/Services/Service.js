@@ -39,6 +39,11 @@ export const getUser = ({username,password}) => {
 }
 
 // json-server
+export const checkUser = ({username}) => {
+  return axios.get('/users?username='+username)
+}
+
+// json-server
 export const getAllUsers = () => {
   return axios.get('/users')
 }
@@ -49,8 +54,8 @@ export const addDeletedAsset = (data) => {
 }
 
 // json-server
-export const getDeletedAssets = () => {
-  return axios.get('/deletedAssets')
+export const getDeletedAssets = ({channel}) => {
+  return axios.get('/deletedAssets?channel='+channel)
 }
 
 

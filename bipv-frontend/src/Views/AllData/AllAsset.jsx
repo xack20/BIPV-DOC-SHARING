@@ -217,6 +217,7 @@ const AllAsset = (props) => {
                   setAssets={setAssets}
                   setAssetID={setAssetID}
                   viewAsset={viewAsset}
+                  isDeletedAsset={false}
                 />
               );
             })}

@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
-// import com.bipv.document.bipvbackend.config.Config;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Network;
@@ -151,18 +150,8 @@ public class ClientApp {
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ?
-    // String.valueOf(Config.peer_org1) : String.valueOf(
-    // Config.peer_org2);
 
-    // if(ORG.equals("1")) {
-    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
-    // } else {
-    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
-    // }
-    // String PEER = "0";
-
-    // load a CCP
+    System.out.println("Entering AddAsset....\nCCP fetching...");
     Path networkConfigPath = Paths.get(
         System.getProperty("user.dir") +
             "/bipv-network/test-network/organizations/peerOrganizations/org" +
@@ -170,7 +159,7 @@ public class ClientApp {
             ".example.com/connection-org" +
             ORG +
             ".json");
-
+    System.out.println("Building Gateway...");
     Gateway.Builder builder = Gateway
         .createBuilder()
         .identity(wallet, payload.get("userName"))
@@ -178,12 +167,14 @@ public class ClientApp {
         .discovery(true);
 
     // create a gateway connection
+    System.out.println("Connecting to Gateway...");
     try (Gateway gateway = builder.connect()) {
       // get the network and contract
       Network network = gateway.getNetwork(payload.get("channel"));
       Contract contract = network.getContract(payload.get("chaincode"));
 
       // call the chaincode function
+      System.out.println("Calling chaincode...");
       try {
         contract.submitTransaction(
             "CreateAsset",
@@ -196,8 +187,9 @@ public class ClientApp {
       } catch (Exception e) {
         return e.getMessage();
       }
-
+      System.out.println("Transaction has been submitted");
       return ReadAsset(payload);
+      // return "Transaction has been submitted";  
     }
   }
 
@@ -260,18 +252,7 @@ public class ClientApp {
     Wallet wallet = Wallets.newFileSystemWallet(walletPath);
 
     String ORG = payload.get("org").split("org")[1];
-    // String PEER = payload.get("org").equals("org1") ?
-    // String.valueOf(Config.peer_org1) : String.valueOf(
-    // Config.peer_org2);
 
-    // if(ORG.equals("1")) {
-    // Config.peer_org1 = (Config.peer_org1 + 1) % 2;
-    // } else {
-    // Config.peer_org2 = (Config.peer_org2 + 1) % 2;
-    // }
-    // String PEER = "0";
-
-    // load a CCP
     Path networkConfigPath = Paths.get(
         System.getProperty("user.dir") +
             "/bipv-network/test-network/organizations/peerOrganizations/org" +
@@ -292,11 +273,15 @@ public class ClientApp {
       Network network = gateway.getNetwork(payload.get("channel"));
       Contract contract = network.getContract(payload.get("chaincode"));
 
+      System.out.println("Making asset...");
       byte[] result = contract.evaluateTransaction(
           "ReadAsset",
           payload.get("documentNo"));
 
+      System.out.println("making POJO........");
       String res = new String(result);
+
+      System.out.println("res: " + res);
 
       JSONObject jsonObject = new JSONObject(res);
       DocumentInfo doc = new DocumentInfo();
@@ -316,7 +301,7 @@ public class ClientApp {
       doc.setReceivedBy(jsonObject.getString("receivedBy"));
       doc.setMainContent(jsonObject.getString("mainContent"));
       doc.setTransferMessage(jsonObject.getString("transferMessage"));
-
+      System.out.println("POJO made");
       return doc;
     }
   }
@@ -514,4 +499,75 @@ public class ClientApp {
       return doc;
     }
   }
+
+  public static Object AssetHistory(Map<String, String> payload)
+      throws Exception {
+    Path walletPath = Paths.get("wallet");
+    Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+
+    String ORG = payload.get("org").split("org")[1];
+
+    // load a CCP
+    System.out.println(ORG);
+    Path networkConfigPath = Paths.get(
+        System.getProperty("user.dir") +
+            "/bipv-network/test-network/organizations/peerOrganizations/org" +
+            ORG +
+            ".example.com/connection-org" +
+            ORG +
+            ".json");
+
+    Gateway.Builder builder = Gateway
+        .createBuilder()
+        .identity(wallet, payload.get("userName"))
+        .networkConfig(networkConfigPath)
+        .discovery(true);
+
+    // create a gateway connection
+    try (Gateway gateway = builder.connect()) {
+      // get the network and contract
+      Network network = gateway.getNetwork(payload.get("channel"));
+      Contract contract = network.getContract(payload.get("chaincode"));
+
+      byte[] result;
+
+      result = contract.evaluateTransaction(
+          "GetAssetHistory",
+          payload.get("documentNo"));
+
+      ArrayList<DocumentInfo> docList = new ArrayList<DocumentInfo>();
+
+      String res = new String(result);
+
+      JSONArray jsonArray = new JSONArray(res);
+
+      for (int i = 0; i < jsonArray.length(); i++) {
+        JSONObject jsonObject = jsonArray.getJSONObject(i);
+        jsonObject = jsonObject.getJSONObject("Record");
+
+        DocumentInfo doc = new DocumentInfo();
+
+        doc.setDocumentNo(jsonObject.getString("documentNo"));
+        // doc.setId(jsonObject.getString("id"));
+        doc.setDocumentLink(jsonObject.getString("documentLink"));
+        doc.setDocumentType(jsonObject.getString("documentType"));
+        doc.setDocumentSize(jsonObject.getString("documentSize"));
+        // doc.setDocName(jsonObject.getString("documentName"));
+        doc.setLastModification(jsonObject.getString("lastModification"));
+        // doc.setOwner(jsonObject.getString("ownedBy"));
+
+        doc.setDateReceived(jsonObject.getString("dateReceived"));
+        doc.setProjectStage(jsonObject.getString("projectStage"));
+        doc.setSentBy(jsonObject.getString("sentBy"));
+        doc.setReceivedBy(jsonObject.getString("receivedBy"));
+        doc.setMainContent(jsonObject.getString("mainContent"));
+        doc.setTransferMessage(jsonObject.getString("transferMessage"));
+
+        docList.add(doc);
+      }
+
+      return docList;
+    }
+  }
+
 }

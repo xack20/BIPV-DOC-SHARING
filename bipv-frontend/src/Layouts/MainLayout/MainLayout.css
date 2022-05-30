@@ -1,9 +1,23 @@
 .logo {
     float: left;
     width: 120px;
-    height: 31px;
-    margin: 16px 24px 16px 0;
-    background: rgba(255, 255, 255, 0.3);
+    height: 55px;
+    margin: 5px 25px 0px 0;
+    background: rgba(19, 119, 207, 0.3);
+    /* /* padding-left: 2.5%; */
+    padding-bottom: 5px;
+    /* padding-top: 0%;  */
+    text-align: center;
+    font-size: large;
+    font-weight: bolder;
+    color: rgb(199, 181, 181);
+    border-radius: 10px;
+
+}
+
+.logo:hover{
+    background: rgba(19, 119, 207, 0.5);
+    cursor: pointer;
 }
 
 .options{

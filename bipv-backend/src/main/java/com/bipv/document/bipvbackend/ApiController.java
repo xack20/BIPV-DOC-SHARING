@@ -68,12 +68,14 @@ public class ApiController {
   @PostMapping("/addAsset")
   public Response addAsset(@RequestBody Map<String, String> payload)
     throws Exception {
-
+    
+    System.out.println("Entering API....");
     Response response = new Response(
       true,
       "New Asset Created!",
       ClientApp.AddAsset(payload)
     );
+    System.out.println("Exiting API....");
     return response;
   }
 
@@ -134,4 +136,16 @@ public class ApiController {
     );
     return response;
   }
+
+  @PostMapping("/assetHistory")
+  public Response assetHistory(@RequestBody Map<String, String> payload)
+    throws Exception {
+    Response response = new Response(
+      true,
+      "Asset "+payload.get("documentNo")+"\'s History Fetched!",
+      ClientApp.AssetHistory(payload)
+    );
+    return response;
+  }
+
 }

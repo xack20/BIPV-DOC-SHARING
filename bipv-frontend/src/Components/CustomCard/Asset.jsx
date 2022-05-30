@@ -36,6 +36,7 @@ const Asset = (props) => {
         orgainization: JSON.parse(localStorage.getItem("user")).orgainization,
         channel: localStorage.getItem("channel"),
         chaincode: localStorage.getItem("chaincode"),
+        timeOfDeletion: new Date().toISOString(),
       });
       const data = await deleteAsset({
         userName,
@@ -67,8 +68,8 @@ const Asset = (props) => {
     <Card
       hoverable
       style={{
-        width: 300,
-        maxHeight: 235,
+        width: 350,
+        maxHeight: 300,
         borderColor: props.idx & 1 ? "#531dab" : "#7cb305",
         borderRadius: " 10px",
       }}
@@ -80,17 +81,15 @@ const Asset = (props) => {
         <FilePdfTwoTone style={{ fontSize: "400%", marginTop: "5%" }} />
       }
       actions={
-        props.data.receivedBy === userName && [
+        props.data.receivedBy === userName &&
+        !props.isDeletedAsset && [
           <PopConfirm
             title="Confirm Transfer?"
             onConfirm={() => {
               assetTransfer();
             }}
           >
-            <InteractionOutlined
-              key="transfer"
-              style={{ fontSize: "150%" }}
-            />
+            <InteractionOutlined key="transfer" style={{ fontSize: "150%" }} />
           </PopConfirm>,
 
           <PopConfirm
@@ -100,10 +99,7 @@ const Asset = (props) => {
               assetDelete();
             }}
           >
-            <DeleteOutlined
-              key="delete"
-              style={{ fontSize: "150%" }}
-            />
+            <DeleteOutlined key="delete" style={{ fontSize: "150%" }} />
           </PopConfirm>,
         ]
       }
@@ -114,8 +110,17 @@ const Asset = (props) => {
             src={"https://joeschmoe.io/api/v1/" + props.data.receivedBy}
           />
         }
-        title={props.data.receivedBy}
-        description={props.data.mainContent}
+        title={"Document no : " + props.data.documentNo}
+        description={
+          props.isDeletedAsset ? (
+            <div>
+              {"Deleted By : " + props.data.receivedBy} <br /> 
+              {"Date of Deletion : " + props.data.timeOfDeletion}
+            </div>
+          ) : (
+            "LastModification : " + props.data.lastModification
+          )
+        }
         onClick={() => {
           props.viewAsset(props.idx);
         }}

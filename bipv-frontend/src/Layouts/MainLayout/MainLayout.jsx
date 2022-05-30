@@ -56,7 +56,7 @@ const MainLayout = (props) => {
   
   const [btn, setBtn] = useState(0);
   const [btnn, setBtnn] = useState(0);
-  const [viewName, setViewName] = useState("Card View");
+  const [viewName, setViewName] = useState("Table View");
   const [modVisibility, setModVisibility] = useState(props.visible);
   const [check, setCheck] = useState(0);
   // const navigate = useNavigate();
@@ -86,11 +86,11 @@ const MainLayout = (props) => {
     setBtnn((btnn+1)%2);
     if(((btnn+1)%2 === 1)){
       setBtn(1);
-      setViewName("Table View");
+      setViewName("Card View");
     }
     else {
       setBtn(0);
-      setViewName("Card View");
+      setViewName("Table View");
     }
   }
   const deletedAsset = ()=>{
@@ -105,7 +105,10 @@ const MainLayout = (props) => {
   return (
     <Layout className="layout">
       <Header>
-        <div className="logo" />
+        {/* <Link to="/home"> */}
+          <div className="logo" onClick={()=>{window.location.reload();}} >Home</div>
+        {/* </Link> */}
+
         {/* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
           <Menu.Item key={"key1"}>
             <Link to="/login">Login</Link>
@@ -210,11 +213,7 @@ const MainLayout = (props) => {
           )}
         </MyModal>
 
-        {/* <div className="options">
-          <Button onClick={()=>{setBtn(1)}}>All Data</Button>
-          <Button onClick={()=>{setBtn(2)}}>Create Asset</Button>
-          <Button onClick={()=>{setBtn(3)}}>Transfer Asset</Button>
-        </div> */}
+
 
         <div className="content">
           {btn === 0 && <AllAsset />}
@@ -222,9 +221,6 @@ const MainLayout = (props) => {
           {btn === 2 && <DeletedInfo />}
         </div>
 
-        {/* <Routes>
-          <Route exact path="/home/deleted-history" element={<DeletedInfo />} />
-        </Routes> */}
       </Content>
       <Footer style={{ textAlign: "center" }}>
         BIPV-Document-Sharing ©2022 Created by BIPV

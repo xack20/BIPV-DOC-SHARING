@@ -138,33 +138,30 @@ class AssetTransfer extends Contract {
     }
 
     // DeleteAsset deletes an given asset from the world state.
-    async DeleteAsset(ctx, id) {
+    async DeleteAsset(ctx, documentNo) {
 
         const user = await this.GetID(ctx);
-        const owner = await this.GetOwner(ctx, id);
+        const owner = await this.GetOwner(ctx, documentNo);
         if(user !== owner) {
             throw new Error(`You are not authorized to perform this action`);
         }
 
-        const exists = await this.AssetExists(ctx, id);
+        const exists = await this.AssetExists(ctx, documentNo);
         if (!exists) {
-            throw new Error(`The asset ${id} does not exist`);
+            throw new Error(`The asset ${documentNo} does not exist`);
         }
-        return await ctx.stub.deleteState(id);
+
+        return await ctx.stub.deleteState(documentNo);
     }
 
     // AssetExists returns true when asset with given ID exists in world state.
-    async AssetExists(ctx, documentNo) {
+        async AssetExists(ctx, documentNo) {
         const assetJSON = await ctx.stub.getState(documentNo);
         return assetJSON && assetJSON.length > 0;
     }
 
 
     async GetHistoryForAsset(ctx, documentNo) {
-        // const exists = await this.AssetExists(ctx, documentNo);
-        // if (!exists) {
-        //     throw new Error(`The asset ${documentNo} does not exist`);
-        // }
         const resultsIterator = await ctx.stub.getHistoryForKey(documentNo);
         const results = [];
         while (true) {
@@ -185,6 +182,33 @@ class AssetTransfer extends Contract {
                 await resultsIterator.close();
                 console.info(results);
                 return JSON.stringify(results[results.length - 1]);
+                // return JSON.stringify(results);
+            }
+        }
+    }
+
+
+    async GetAssetHistory(ctx, documentNo) {
+        const resultsIterator = await ctx.stub.getHistoryForKey(documentNo);
+        const results = [];
+        while (true) {
+            const res = await resultsIterator.next();
+            if (res.value && res.value.value.toString()) {
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    Record = res.value.value.toString('utf8');
+                }
+                results.push({ Key, Record });
+            }
+            if (res.done) {
+                console.log('end of data');
+                await resultsIterator.close();
+                console.info(results);
+                return JSON.stringify(results);
             }
         }
     }

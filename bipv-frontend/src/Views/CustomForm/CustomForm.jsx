@@ -25,7 +25,7 @@ const CustomForm = (props) => {
     "projectStage",
     "documentSize",
     "mainContent",
-    "transferMessage"
+    "transferMessage",
   ];
 
   const onFinish = async (values) => {
