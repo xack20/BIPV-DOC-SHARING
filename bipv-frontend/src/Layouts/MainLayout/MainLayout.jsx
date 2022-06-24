@@ -175,7 +175,7 @@ const MainLayout = (props) => {
                     {state.organization === "org1" &&
                       "Taizhou Haineng New Energy Group Co. Ltd."}
                     {state.organization === "org2" &&
-                      "Fanzai (Design consultant)"}
+                      "FanPower (Design consultant)"}
                     {state.organization === "org3" &&
                       "Jiangsu Haichi Construction Co., Ltd. (Contractor)"}
                     {state.organization === "org4" &&

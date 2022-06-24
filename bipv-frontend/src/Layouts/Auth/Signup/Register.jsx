@@ -237,7 +237,7 @@ const Register = (props) => {
             <Option value="org1">
               Taizhou Haineng New Energy Group Co. Ltd.
             </Option>
-            <Option value="org2">Fanzai (Design consultant)</Option>
+            <Option value="org2">FanPower (Design consultant)</Option>
             <Option value="org3">
               Jiangsu Haichi Construction Co., Ltd. (Contractor)
             </Option>
